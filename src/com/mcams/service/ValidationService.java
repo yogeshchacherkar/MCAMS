@@ -45,6 +45,7 @@ public class ValidationService implements IValidationService {
 		else return false;
 	}
 
+	@Override
 	public boolean validateMSocietyId(char[] mSocietyId) {
 		if(mSocietyId.length==3) {
 			// TODO check in database if found return true otherwise false
@@ -53,12 +54,31 @@ public class ValidationService implements IValidationService {
 		else return false;
 	}
 
+	@Override
 	public LocalTime validateDuration(String time) {
 		if(time.matches("[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}")) {
 			time = "12:"+time;
 			return LocalTime.parse(time,DateTimeFormatter.ofPattern("H:m:s"));
 		}
 		else return null;		
+	}
+	
+	@Override
+	public boolean validateUsername(String username) {
+		if(username.matches("[^[a-z][a-z0-9]\\.]{3,50}")) return true;
+		else return false;
+	}
+	
+	@Override
+	public boolean validatePassword(String password) {
+		if(password.length()>8 && password.length()<50) return true;
+		else return false;
+	}
+
+	@Override
+	public boolean validateAnswer(String answer) {
+		if(answer.matches("[a-zA-Z0-9]{1,50}")) return true;
+		else return false;
 	}
 	
 }

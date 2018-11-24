@@ -122,4 +122,34 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 		}
 	}
 
+	public int checkUser(String username) {
+		try {
+			String sql = "SELECT User_Id FROM User_Master WHERE User_Name='"+username+"'";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) return 1;
+			else return 0;
+		}catch(SQLException e) {
+			myLogger.error(e);
+			return -1;
+		}
+	}
+
+	public int register(UserBean userBean) {
+		try {
+			//Adding record
+			String sql = "INSERT INTO User_Master VALUES(userSeq.NEXTVAL,'"+userBean.getUserName()+"','"+userBean.getUserPassword()+"',"+userBean.getSecQueId()+",'"+userBean.getSecQueAnswer()+"',userSeq.NEXTVAL,SYSDATE,userSeq.NEXTVAL,SYSDATE)";
+			Statement st = conn.createStatement();
+			st.executeUpdate(sql);
+			
+			//Fetching generated record id
+			sql = "SELECT userSeq.CURRVAL FROM DUAL";
+			ResultSet rs = st.executeQuery(sql);
+			rs.next();
+			return rs.getInt(1);
+		}catch(SQLException e) {
+			return 0;
+		}
+	}
+
 }

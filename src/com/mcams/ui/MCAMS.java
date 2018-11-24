@@ -119,15 +119,17 @@ public class MCAMS {
 				clearScreen();			
 				System.out.println("*************Music_Composer_and_Artist_Management_System*************\n");
 				
-				System.out.println("1. Login");
-				System.out.println("2. Forgot Password");
-				System.out.println("3. Exit");
+				System.out.println("1. Register");
+				System.out.println("2. Login");
+				System.out.println("3. Forgot Password");
+				System.out.println("4. Exit");
 				System.out.print("Enter your choice: ");
 				choice = valService.validateChoice(scan.nextLine());
 				
-				if(choice == 1)	break;
-				else if(choice == 2) forgotPassword();
-				else if(choice == 3) exit();
+				if(choice == 1) register();
+				else if(choice == 2) break;
+				else if(choice == 3) forgotPassword();
+				else if(choice == 4) exit();
 				else System.out.println("\nPlease enter valid choice!\n");
 			}
 			
@@ -199,6 +201,108 @@ public class MCAMS {
 		}
 	}
 
+	private static void register() {
+		String username;
+		String password;
+		int validity;
+		clearScreen();
+		System.out.println("REGISTER\n");
+		while(true) {
+			System.out.print("Enter username: ");
+			username = scan.nextLine();
+			boolean isValid = valService.validateUsername(username);
+			if(!isValid) {
+				System.out.println("Invalid username!");
+				System.out.println("Username must start with letter.");
+				System.out.println("Allowed characters are a-z (only lower case),0-9 and .(dot)");
+				System.out.println("Size ==> Minimum:3 Maximum:50\n");
+				
+				String choice;
+				while(true) {
+					System.out.print("\nDo you want to continue? (y/n): ");
+					choice = scan.nextLine();
+					
+					if(choice.equalsIgnoreCase("y")) break;
+					else if(choice.equalsIgnoreCase("n")) return;
+					else System.out.println("\nPlease enter valid choice!\n");
+				}
+				continue;
+			}
+			validity = authService.checkUser(username);
+			
+			if(validity == 0) {
+				while(true) {
+					System.out.print("Enter password: ");
+					password = scan.nextLine();
+					isValid = valService.validatePassword(password);
+					if(isValid) break;
+					else {
+						System.out.println("Invalid Password!");
+						System.out.println("Password length should be between 8 and 50\n");
+					}
+				}
+				
+				int secQueNo;
+				while(true) {
+					System.out.println("Security questions ");
+					System.out.println("1. In which city you were born?");
+					System.out.println("2. What was your first pet's name?");
+					System.out.println("3. What is the name of your favorite book?");
+					System.out.println("4. Who is your favorite cartoon character?");
+					System.out.print("Select security question: ");
+					secQueNo = valService.validateChoice(scan.nextLine());
+					
+					if(secQueNo>0 && secQueNo<5) break;
+					else System.out.println("\nPlease enter valid choice!\n");
+				}
+				
+				String answer;
+				while(true) {
+					System.out.print("Your answer: ");
+					answer = scan.nextLine();
+					isValid = valService.validateAnswer(answer);
+					if(isValid) break;
+					else {
+						System.out.println("\nInvalid answer!");
+						System.out.println("Answer should not be empty and should contain only letters and numbers.");
+						System.out.println("Maximum size allowed: 60 characters\n");
+					}
+				}
+				
+				userBean.setUserName(username);
+				userBean.setUserPassword(password);
+				userBean.setSecQueId(secQueNo);
+				userBean.setSecQueAnswer(answer);
+				
+				int getId = authService.register(userBean);
+				
+				if(getId>0) {
+					clearScreen();
+					System.out.println("REGISTRATION SUCCESSFULL!\n");
+					System.out.println("Your ID: "+getId+"\n");
+					System.out.println("NOTE: Use this ID for Login!");
+					
+					while(true) {
+						System.out.print("Enter 'CONFIRM' to proceed: ");
+						if(scan.nextLine().equalsIgnoreCase("CONFIRM")) return;
+					}
+				}
+				else System.out.println("\nRegistration Failed due to internal problem.\nPlease try again later...\n");
+				sleep(3);
+				return;
+			}
+			else if(validity == 1) {
+				System.out.println("\nThis username already used! Please enter different username.\n");
+			}
+			else {
+				System.out.println("\nUnable to proceed! please try again later...");
+				sleep(2);
+				clearScreen();
+				return;
+			}
+		}
+	}
+
 	private static void forgotPassword() {
 		String userId;
 		String answer;
@@ -262,7 +366,7 @@ public class MCAMS {
 						System.out.println("\nYour password reset to: "+randomPassword);
 						System.out.println("Please change password after next login!\n");
 						while(true) {
-							System.out.print("Press 'CONFIRM' to proceed: ");
+							System.out.print("Enter 'CONFIRM' to proceed: ");
 							if(scan.nextLine().equalsIgnoreCase("CONFIRM")) return;
 						}
 					}

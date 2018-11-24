@@ -15,4 +15,8 @@ public interface IAuthenticationService {
 	UserBean getUser(String userId);
 
 	int resetPassword(int userId, int randomPassword);
+
+	int checkUser(String username);
+
+	int register(UserBean userBean);
 }

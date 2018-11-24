@@ -34,4 +34,14 @@ public class AuthenticationService implements IAuthenticationService {
 		return dao.resetPassword(userId,randomPassword);
 	}
 
+	@Override
+	public int checkUser(String username) {
+		return dao.checkUser(username);
+	}
+
+	@Override
+	public int register(UserBean userBean) {
+		return dao.register(userBean);
+	}
+
 }
