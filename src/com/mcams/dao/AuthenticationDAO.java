@@ -70,7 +70,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 			ResultSet rs = st.executeQuery(sql);
 			
 			if(rs.next()) {
-				sql = "SELECT * FROM SecQue_Master WHERE SeqQue_Id="+rs.getInt(1);
+				sql = "SELECT * FROM SecQue_Master WHERE SecQue_Id="+rs.getInt(1);
 				rs = st.executeQuery(sql);
 				rs.next();
 				secQueBean.setSecQueId(rs.getInt(1));
