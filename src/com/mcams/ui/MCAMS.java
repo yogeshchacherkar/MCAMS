@@ -165,7 +165,7 @@ public class MCAMS {
 				authBean.setPassword(password);
 				
 				/*
-				 * userBean.getUserId():-
+				 * userBean.getUserId():
 				 *  0 => Correct credentials
 				 *  1 => User record found but password not matched
 				 * -1 => User record not present in database
