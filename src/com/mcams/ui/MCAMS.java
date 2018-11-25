@@ -121,7 +121,6 @@ public class MCAMS {
 		while(true) {			
 			String userId;
 			String password;
-			int result;
 			
 			int choice;
 			while(true){
@@ -166,24 +165,24 @@ public class MCAMS {
 				authBean.setPassword(password);
 				
 				/*
-				 * int result:-
+				 * userBean.getUserId():-
 				 *  0 => Correct credentials
 				 *  1 => User record found but password not matched
 				 * -1 => User record not present in database
 				 */
 				try {
-					result = authService.checkCredentials(authBean);
+					userBean = authService.checkCredentials(authBean);
 				} catch (AppException e) {
 					throw new AppException(e.getMessage());
 				}
 				
-				if(result == 0) {
+				if(userBean.getUserId() == 0) {
 					System.out.println("\nLogin Successful!\n\n");
 					isContinue = false;
 					break;
 				}
 				else {
-					if(result == 1)
+					if(userBean.getUserId() == 1)
 						System.out.println("\nERROR: Invalid Password!\n");
 					else
 						System.out.println("\nERROR: user "+authBean.getUserId()+" doesn't exist.\n");
@@ -204,9 +203,9 @@ public class MCAMS {
 			clearScreen();
 			
 			if(userId.equals("100000") || userId.equals("100001"))
-				adminConsole(authBean.getUserId(),authBean.getPassword());
+				adminConsole(authBean.getUserId(),authBean.getPassword(),userBean.getUserName());
 			else
-				clientConsole(authBean.getUserId(),authBean.getPassword());
+				clientConsole(authBean.getUserId(),authBean.getPassword(),userBean.getUserName());
 		}
 	}
 
@@ -397,9 +396,9 @@ public class MCAMS {
 		}	
 	}
 
-	private static void adminConsole(int userId,String password) throws AppException {
+	private static void adminConsole(int userId,String password,String username) throws AppException {
 		int choice;
-		System.out.println("Welcome admin!\n");
+		System.out.println("Welcome "+username+"!\n");
 		
 		while(true){
 			
@@ -964,11 +963,11 @@ public class MCAMS {
 		}
 	}
 
-	private static void clientConsole(int userId, String password) {
+	private static void clientConsole(int userId, String password, String username) {
 		int choice;
 		
 		while(true) {
-			System.out.println("Welcome user: "+userId+"\n");
+			System.out.println("Welcome user: "+username+"\n");
 			System.out.println("1. Search Artist/Composer's songs");
 			System.out.println("2. ACCOUNT SETTING");
 			System.out.println("3. LOGOUT");

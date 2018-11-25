@@ -10,7 +10,7 @@ public class AuthenticationService implements IAuthenticationService {
 	AuthenticationDAO dao = new AuthenticationDAO();
 	
 	@Override
-	public int checkCredentials(AuthenticationBean bean) throws AppException {
+	public UserBean checkCredentials(AuthenticationBean bean) throws AppException {
 		return dao.checkCredentials(bean);
 	}
 

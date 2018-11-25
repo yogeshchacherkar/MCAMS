@@ -5,7 +5,7 @@ import com.mcams.bean.UserBean;
 import com.mcams.exception.AppException;
 
 public interface IAuthenticationDAO {
-	public int checkCredentials(AuthenticationBean bean) throws AppException;
+	public UserBean checkCredentials(AuthenticationBean bean) throws AppException;
 
 	int updateSecQue(int userId, int queNo, String answer);
 

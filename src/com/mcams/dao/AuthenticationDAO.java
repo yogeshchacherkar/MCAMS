@@ -19,9 +19,10 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 	public static Connection conn = DBUtil.getConnection();
 	Logger myLogger =  Logger.getLogger(AuthenticationDAO.class.getName());
 	
-	public int checkCredentials(AuthenticationBean bean) throws AppException {
+	public UserBean checkCredentials(AuthenticationBean bean) throws AppException {
+		UserBean userBean = new UserBean();
 		PropertyConfigurator.configure(MCAMS.path);
-		String sql = "SELECT User_Password FROM User_Master WHERE User_Id='"+bean.getUserId()+"'";
+		String sql = "SELECT User_Password, User_Name FROM User_Master WHERE User_Id='"+bean.getUserId()+"'";
 		try {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -29,16 +30,20 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 			if(rs.next()) {
 				if(bean.getPassword().equals(rs.getString(1))){
 					myLogger.info("Login Successfully");
-					return 0;
+					userBean.setUserId(0);
+					userBean.setUserName(rs.getString(2));
+					return userBean;
 				}
 				else{
 					myLogger.info("Password not matched");
-					return 1;
+					userBean.setUserId(1);
+					return userBean;
 				}
 			}
 			else{
 				myLogger.info("User not exist");
-				return -1;
+				userBean.setUserId(-1);
+				return userBean;
 			}
 			
 		} catch (SQLException e) {
