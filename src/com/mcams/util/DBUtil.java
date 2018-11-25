@@ -18,8 +18,8 @@ public class DBUtil {
 		InputStream fin;
 		String resource;
 		try {
-			resource = "database.properties";
-//			resource = "db.properties";
+//			resource = "database.properties";
+			resource = "db.properties";
     		fin = DBUtil.class.getClassLoader().getResourceAsStream(resource);
 			properties.load(fin);
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -31,15 +31,10 @@ public class DBUtil {
 				myLogger.info("Connection established");
 			}
 			else {
-				System.out.println("Connection Failed!");
-				System.out.println("<-PROGRAM TERMINATED->");
-				System.exit(0);
+				return null;
 			}
 			return conn;
 		} catch (Exception e) {
-			System.out.println("Connection Failed!");
-			System.out.println("<-PROGRAM TERMINATED->");
-			System.exit(0);
 			return null;
 		}
 	}

@@ -6,7 +6,6 @@ public class AppException extends Exception {
 	
 	public AppException(String msg) {
 		message = msg;
-		System.out.println("Wow! Got an exception!");
 	}
 	
 	@Override

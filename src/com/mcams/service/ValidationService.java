@@ -48,7 +48,6 @@ public class ValidationService implements IValidationService {
 	@Override
 	public boolean validateMSocietyId(char[] mSocietyId) {
 		if(mSocietyId.length==3) {
-			// TODO check in database if found return true otherwise false
 			return true;
 		}
 		else return false;
@@ -65,7 +64,7 @@ public class ValidationService implements IValidationService {
 	
 	@Override
 	public boolean validateUsername(String username) {
-		if(username.matches("[^[a-z][a-z0-9]\\.]{3,50}")) return true;
+		if(username.matches("^[a-zA-Z][[a-zA-Z0-9]\\.]{3,50}")) return true;
 		else return false;
 	}
 	

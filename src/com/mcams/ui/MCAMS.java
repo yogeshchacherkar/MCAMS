@@ -17,6 +17,7 @@ import com.mcams.bean.ComposerBean;
 import com.mcams.bean.SecQueBean;
 import com.mcams.bean.SongBean;
 import com.mcams.bean.UserBean;
+import com.mcams.dao.AuthenticationDAO;
 import com.mcams.exception.AppException;
 import com.mcams.service.AdminService;
 import com.mcams.service.AuthenticationService;
@@ -105,7 +106,15 @@ public class MCAMS {
 	static AdminService adminService = new AdminService();
 	static UserService userService = new UserService();
 	
-	public static void main(String[] args) throws AppException {loginHome();}
+	public static void main(String[] args) throws AppException {
+		if(AuthenticationDAO.conn == null) {
+			System.out.println("Error while connecting to the database");
+			System.out.println("Exiting Program.......");
+			sleep(3);
+			exit();
+		}
+		loginHome();
+	}
 
 	private static void loginHome() throws AppException {
 		boolean isContinue;
@@ -961,7 +970,7 @@ public class MCAMS {
 		while(true) {
 			System.out.println("Welcome user: "+userId+"\n");
 			System.out.println("1. Search Artist/Composer's songs");
-			System.out.println("2. CHANGE PASSWORD");
+			System.out.println("2. ACCOUNT SETTING");
 			System.out.println("3. LOGOUT");
 			System.out.println("4. EXIT");
 			System.out.print("Enter your choice: ");
@@ -970,7 +979,11 @@ public class MCAMS {
 			
 			switch(choice) {
 			case 1: searchSong(userId); break;
-			case 2: if(changePassword(userId,password)==0) return; else{password=newPass; break;}
+			case 2: 
+				int result = accountSetting(userId,password);
+				if(result==0) return;
+				else if(result==1){password=newPass; break;}
+				else break;
 			case 3: {attempt=3; return;}
 			case 4: exit();
 			default: System.out.println("\nPlease enter valid choice!\n");

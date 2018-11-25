@@ -49,7 +49,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 
 	@Override
 	public int updateSecQue(int userId, int queNo, String answer) {
-		String sql = "UPDATE User_Master SET SecQue_Id="+queNo+", SecQue_Answer='"+answer+"' WHERE User_Id="+userId;
+		String sql = "UPDATE User_Master SET SecQue_Id="+queNo+", SecQue_Ans='"+answer+"' WHERE User_Id="+userId;
 		try {
 			Statement st = conn.createStatement();
 			st.executeUpdate(sql);
@@ -124,7 +124,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 
 	public int checkUser(String username) {
 		try {
-			String sql = "SELECT User_Id FROM User_Master WHERE User_Name='"+username+"'";
+			String sql = "SELECT User_Id FROM User_Master WHERE LOWER(User_Name)=LOWER('"+username+"')";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()) return 1;
