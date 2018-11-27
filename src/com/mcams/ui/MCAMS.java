@@ -227,7 +227,7 @@ public class MCAMS {
 	}
 
 	/**
-	 * Method for user registration
+	 * Method for user registration 
 	 */
 	private static void register() {
 		String username;
