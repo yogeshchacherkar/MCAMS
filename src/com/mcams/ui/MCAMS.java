@@ -2180,7 +2180,7 @@ public class MCAMS {
 	
 
 	/**
-	 * @param i i in integer
+	 * @param i Specifies seconds in integer
 	 */
 	private static void sleep(int i) {
 		try {
