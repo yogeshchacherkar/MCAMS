@@ -341,7 +341,7 @@ public class MCAMS {
 		while(true) {
 			System.out.println("FORGOT PASSWORD\n");
 			while(true) {
-				System.out.print("\nEnter user id: ");
+				System.out.print("Enter user id: ");
 				userId = scan.nextLine();
 				boolean isValid = valService.validateUserId(userId);
 				if(isValid) break;
@@ -479,11 +479,13 @@ public class MCAMS {
 			System.out.println("1. Change Password");
 			System.out.println("2. Update Security Question");
 			System.out.println("3. Back");
-		
+			System.out.print("Enter your choice: ");
+			
 			int choice = valService.validateChoice(scan.nextLine());
 			switch(choice) {
 			case 1: return changePassword(userId,password);
 			case 2: return updateSecurityQuestion(userId);
+			case 3: clearScreen(); return 1;
 			default: System.out.println("Please enter valid choice!\n");
 			}
 		}
@@ -1888,7 +1890,7 @@ public class MCAMS {
 	 * @param userId User Id in integer
 	 */
 	private static void seachArtistSongs(int userId) {
-		String name, adminFormat = "%-8s %-35s %-8s %-10s %-10s %-10s %-10s", userFormat = "%-6s %-30s %-8s";
+		String name, adminFormat = "%-2s %-8s %2s %-35s %2s %-8s %2s %-10s %2s %-10s %2s %-10s %2s %-10s %2s", userFormat = "%-2s %-6s %2s %-30s %2s %-8s %2s";
 		int choice1;
 		ArrayList<SongBean> songList;
 		clearScreen();
@@ -1935,32 +1937,42 @@ public class MCAMS {
 				
 				if(songList.isEmpty()) System.out.println("\nNo record found!\n");
 				else{
-					System.out.println("\nSongs associated to "+artBean.getName());
+					System.out.println("\nSongs associated to "+artBean.getName()+":\n");
 					int i=1;
-					if(userId==100000 || userId==100001)
-						System.out.printf(adminFormat, "Song_Id", "Song_Name", "Duration", "Created_By", "Created_On", "Updated_By", "Updated_On\n");
-					else
-						System.out.printf(userFormat, "Sr.No.", "Song_Name", "Duration\n");
+					if(userId==100000 || userId==100001) {
+						System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+						System.out.printf(adminFormat, "|", "Song_Id","|", "Song_Name","|", "Duration","|", "Created_By","|", "Created_On","|", "Updated_By","|", "Updated_On","|");
+						System.out.println("\n-------------------------------------------------------------------------------------------------------------------------");
+					}
+					else {
+						System.out.println("----------------------------------------------------------");
+						System.out.printf(userFormat, "|", "Sr.No.","|", "Song_Name","|", "Duration", "|");
+						System.out.println("\n----------------------------------------------------------");
+					}
 					for (SongBean songBean : songList) {
 						String duration;
 						if(songBean.getDuration().getSecond()<10) duration=songBean.getDuration().getMinute()+":0"+songBean.getDuration().getSecond();
 						else duration=songBean.getDuration().getMinute()+":"+songBean.getDuration().getSecond();
 						if(userId==100000 || userId==100001){
-							System.out.printf(adminFormat, songBean.getId(), songBean.getName(), duration, songBean.getCreatedBy(), songBean.getCreatedOn(), songBean.getUpdatedBy(), songBean.getUpdatedOn());
+							System.out.printf(adminFormat,"|", songBean.getId(),"|", songBean.getName(),"|", duration,"|", songBean.getCreatedBy(),"|", songBean.getCreatedOn(),"|", songBean.getUpdatedBy(),"|", songBean.getUpdatedOn(),"|");
 							System.out.println();
 						}
 						else {
-							System.out.printf(userFormat, i+")", songBean.getName(), duration);
+							System.out.printf(userFormat,"|", i+")","|", songBean.getName(),"|", duration,"|");
 							System.out.println();
 							i++;
 						}
 					}
+					if(userId==100000 || userId==100001)
+						System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+					else
+						System.out.println("----------------------------------------------------------");
 				}
 			}
 			
 			boolean isContinue;
 			while(true) {
-				System.out.print("Do you want to continue? (y/n): ");
+				System.out.print("\nDo you want to continue? (y/n): ");
 				String choice = scan.nextLine();
 			
 				if(choice.equalsIgnoreCase("y")) {clearScreen(); isContinue=true; break;}
@@ -1976,7 +1988,7 @@ public class MCAMS {
 	 * @param userId User Id in integer
 	 */
 	private static void searchComposerSongs(int userId) {
-		String name, adminFormat = "%-8s %-35s %-8s %-10s %-10s %-10s %-10s", userFormat = "%-6s %-30s %-8s";
+		String name, adminFormat = "%-2s %-8s %2s %-35s %2s %-8s %2s %-10s %2s %-10s %2s %-10s %2s %-10s %2s", userFormat = "%-2s %-6s %2s %-30s %2s %-8s %2s";
 		int choice1;
 		ArrayList<SongBean> songList;
 		
@@ -2024,32 +2036,42 @@ public class MCAMS {
 				
 				if(songList.isEmpty()) System.out.println("\nNo record found!\n");
 				else{
-					System.out.println("\nSongs associated to "+compBean.getName());
+					System.out.println("\nSongs associated to "+compBean.getName()+":\n");
 					int i=1;
-					if(userId==100000 || userId==100001)
-						System.out.printf(adminFormat, "Song_Id", "Song_Name", "Duration", "Created_By", "Created_On", "Updated_By", "Updated_On\n");
-					else
-						System.out.printf(userFormat, "Sr.No.", "Song_Name", "Duration\n");
+					if(userId==100000 || userId==100001) {
+						System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+						System.out.printf(adminFormat,"|", "Song_Id","|", "Song_Name","|", "Duration","|", "Created_By","|", "Created_On","|", "Updated_By","|", "Updated_On", "|");
+						System.out.println("\n-------------------------------------------------------------------------------------------------------------------------");
+					}
+					else {
+						System.out.println("----------------------------------------------------------");
+						System.out.printf(userFormat, "|", "Sr.No.", "|", "Song_Name", "|", "Duration", "|");
+						System.out.println("\n----------------------------------------------------------");
+					}
 					for (SongBean songBean : songList) {
 						String duration;
 						if(songBean.getDuration().getSecond()<10) duration=songBean.getDuration().getMinute()+":0"+songBean.getDuration().getSecond();
 						else duration=songBean.getDuration().getMinute()+":"+songBean.getDuration().getSecond();
 						if(userId==100000 || userId==100001){
-							System.out.printf(adminFormat, songBean.getId(), songBean.getName(), duration, songBean.getCreatedBy(), songBean.getCreatedOn(), songBean.getUpdatedBy(), songBean.getUpdatedOn());
+							System.out.printf(adminFormat,"|", songBean.getId(),"|", songBean.getName(),"|", duration,"|", songBean.getCreatedBy(),"|", songBean.getCreatedOn(),"|", songBean.getUpdatedBy(),"|", songBean.getUpdatedOn(), "|");
 							System.out.println();
 						}
 						else {
-							System.out.printf(userFormat, i+")",songBean.getName(), duration);
+							System.out.printf(userFormat, "|", i+")", "|", songBean.getName(), "|", duration, "|");
 							System.out.println();
 							i++;
 						}
 					}
+					if(userId==100000 || userId==100001)
+						System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+					else
+						System.out.println("----------------------------------------------------------");
 				}
 			}
 			
 			boolean isContinue;
 			while(true) {
-				System.out.print("Do you want to continue? (y/n): ");
+				System.out.print("\nDo you want to continue? (y/n): ");
 				String choice = scan.nextLine();
 			
 				if(choice.equalsIgnoreCase("y")) {clearScreen(); isContinue=true; break;}
@@ -2073,12 +2095,16 @@ public class MCAMS {
 		String oldPassword;
 		String newPassword;
 		String confirmPassword;
+		System.out.println("CHANGE PASSWORD\n");
 		while(true) {
-			System.out.println("CHANGE PASSWORD\n");
 			
 			System.out.print("Old Password: ");
 			if(console!=null) oldPassword = new String(console.readPassword());
 			else oldPassword = scan.nextLine();
+			if(!oldPassword.equals(password)) {
+				System.out.println("Password Incorrect\n");
+				continue;
+			}
  			while(true) {
 				System.out.print("New Password: ");
 				if(console!=null) newPassword = new String(console.readPassword());
@@ -2092,45 +2118,41 @@ public class MCAMS {
 				}
 				break;
 			}
+
+			/**
+			 * result=0  => password changed
+			 * result=1  => password not changed due to SQLException
+			 */
+			int result;
+			if(userId==100000 || userId==100001) result=adminService.changePassword(userId,newPassword);
+			else result=userService.changePassword(userId,newPassword);
 			
-			if(!password.equals(oldPassword))
-				System.out.println("Password incorrect!\n");
+			if(result==0) {
+				System.out.println("\nPassword changed!\n");
 				
-			else {
-				/**
-				 * result=0  => password changed
-				 * result=1  => password not changed due to SQLException
-				 */
-				int result;
-				if(userId==100000 || userId==100001) result=adminService.changePassword(userId,newPassword);
-				else result=userService.changePassword(userId,newPassword);
-				
-				if(result==0) {
-					System.out.println("\nPassword changed!\n");
+				String choice;
+				while(true) {
+					System.out.print("LOGOUT NOW? (y/n): ");
+					choice = scan.nextLine();
 					
-					String choice;
-					while(true) {
-						System.out.print("LOGOUT NOW? (y/n): ");
-						choice = scan.nextLine();
-						
-						if(choice.equals("y")) {clearScreen(); return 0;}
-						else if(choice.equals("n")) {clearScreen(); newPass=newPassword; return 1;}
-						else System.out.println("\nPlease enter valid choice!\n");
-					}
-				}
-				else {
-					System.out.println("Unable to change password! Please try again...");
-					while(true) {
-						String choice;
-						System.out.println("Do you want to continue? (y/n): ");
-						choice = scan.nextLine();
-						
-						if(choice.equals("y")) {clearScreen(); break;}
-						if(choice.equals("n")) {clearScreen(); return 1;}
-						else System.out.println("\nPlease enter valid choice!\n");
-					}
+					if(choice.equals("y")) {clearScreen(); return 0;}
+					else if(choice.equals("n")) {clearScreen(); newPass=newPassword; return 1;}
+					else System.out.println("\nPlease enter valid choice!\n");
 				}
 			}
+			else {
+				System.out.println("Unable to change password! Please try again...");
+				while(true) {
+					String choice;
+					System.out.println("Do you want to continue? (y/n): ");
+					choice = scan.nextLine();
+					
+					if(choice.equals("y")) {clearScreen(); break;}
+					if(choice.equals("n")) {clearScreen(); return 1;}
+					else System.out.println("\nPlease enter valid choice!\n");
+				}
+			}
+			
 			
 			while(true) {
 				String choice;

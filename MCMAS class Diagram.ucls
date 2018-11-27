@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.mcams.bean.ArtistBean" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/bean/ArtistBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="147" width="137" x="30" y="-22"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.mcams.bean.AuthenticationBean" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/bean/AuthenticationBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="81" width="140" x="284" y="-13"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.mcams.bean.ComposerBean" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/bean/ComposerBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="76" width="117" x="577" y="-8"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.mcams.bean.SongBean" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/bean/SongBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="83" width="126" x="954" y="-12"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.mcams.ui.MCAMS" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/ui/MCAMS.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="208" width="170" x="77" y="183"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.mcams.service.AdminService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/AdminService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="123" width="170" x="56" y="607"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.mcams.service.AuthenticationService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/AuthenticationService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="117" width="149" x="319" y="606"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="8" language="java" name="com.mcams.service.IAdminService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/IAdminService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="56" width="111" x="46" y="464"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="9" language="java" name="com.mcams.service.IAuthenticationService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/IAuthenticationService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="152" x="317" y="460"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="10" language="java" name="com.mcams.service.IUserService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/IUserService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="60" width="150" x="584" y="457"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="11" language="java" name="com.mcams.service.IValidationService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/IValidationService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="59" width="188" x="918" y="457"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="12" language="java" name="com.mcams.service.UserService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/UserService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="126" width="153" x="584" y="603"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.mcams.service.ValidationService" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/service/ValidationService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="127" width="192" x="921" y="602"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="14" language="java" name="com.mcams.dao.IAdminDao" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/dao/IAdminDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="56" width="225" x="119" y="819"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="15" language="java" name="com.mcams.dao.IAuthenticationDAO" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/dao/IAuthenticationDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="55" width="225" x="461" y="818"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="16" language="java" name="com.mcams.dao.IUserDao" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/dao/IUserDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="59" width="232" x="842" y="817"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="17" language="java" name="com.mcams.dao.AdminDao" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/dao/AdminDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="125" width="255" x="86" y="994"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="com.mcams.dao.AuthenticationDAO" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/dao/AuthenticationDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="563" y="1115"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="com.mcams.dao.UserDao" project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/dao/UserDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="113" width="249" x="842" y="997"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="com.mcams.exception.AppException" 
+    project="Music Composer and Artist Management System" 
+    file="/Music Composer and Artist Management System/src/com/mcams/exception/AppException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1150" y="237"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="21">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <realization id="22">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="15"/>  
+  </realization>  
+  <association id="23">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="24" name="songBean">        
+        <position height="0" width="0" x="361" y="13"/>      
+      </attribute>      
+      <multiplicity id="25" minimum="0" maximum="1">        
+        <position height="0" width="0" x="361" y="13"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="27" name="authBean">        
+        <position height="0" width="0" x="54" y="2"/>      
+      </attribute>      
+      <multiplicity id="28" minimum="0" maximum="1">        
+        <position height="0" width="0" x="54" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="30" name="adminDao">        
+        <position height="0" width="0" x="17" y="-16"/>      
+      </attribute>      
+      <multiplicity id="31" minimum="0" maximum="1">        
+        <position height="0" width="0" x="17" y="-16"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="33" name="dao">        
+        <position height="0" width="0" x="55" y="46"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="1">        
+        <position height="0" width="0" x="55" y="46"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="35">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="36" name="compBean">        
+        <position height="0" width="0" x="177" y="7"/>      
+      </attribute>      
+      <multiplicity id="37" minimum="0" maximum="1">        
+        <position height="0" width="0" x="177" y="7"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="38">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="39" name="userService">        
+        <position height="0" width="0" x="128" y="-5"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="1">        
+        <position height="0" width="0" x="128" y="-5"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="41">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="42" name="adminService">        
+        <position height="0" width="0" x="19" y="-1"/>      
+      </attribute>      
+      <multiplicity id="43" minimum="0" maximum="1">        
+        <position height="0" width="0" x="19" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="44">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="45">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <association id="46">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="47" name="userDao">        
+        <position height="0" width="0" x="179" y="-12"/>      
+      </attribute>      
+      <multiplicity id="48" minimum="0" maximum="1">        
+        <position height="0" width="0" x="179" y="-12"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="49">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="50" name="artBean">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="51" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="53" name="authService">        
+        <position height="0" width="0" x="74" y="-7"/>      
+      </attribute>      
+      <multiplicity id="54" minimum="0" maximum="1">        
+        <position height="0" width="0" x="74" y="-7"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="55">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="16"/>  
+  </realization>  
+  <association id="56">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="57" name="valService">        
+        <position height="0" width="0" x="232" y="-4"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="1">        
+        <position height="0" width="0" x="232" y="-4"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="59">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <realization id="60">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="9"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

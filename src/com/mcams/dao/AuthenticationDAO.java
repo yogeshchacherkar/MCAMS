@@ -98,7 +98,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 		UserBean userBean = new UserBean();
 		
 		try {
-			String sql = "SELECT SecQue_Answer FROM User_Master WHERE User_Id="+userId;
+			String sql = "SELECT LOWER(SecQue_Answer) FROM User_Master WHERE User_Id="+userId;
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
