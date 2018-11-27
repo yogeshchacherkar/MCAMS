@@ -41,6 +41,9 @@ public class TestCase {
 	//	 Assert.assertNotNull("Test done",bean);
 	// }
 	 
+	/**
+	 * @throws AppException User defined exception for method
+	 */
 	@Test
 	 public void searchInvalidArtistTest() throws AppException{
 	
@@ -48,6 +51,9 @@ public class TestCase {
 		 Assert.assertNotNull("No Match Found",bean);
 	 }
 	
+	/**
+	 * @throws AppException User defined exception for method
+	 */
 	@Test
 	 public void searchValidArtistTest() throws AppException{
 		
@@ -57,20 +63,29 @@ public class TestCase {
 	 
 	 
 	 
-	 @Test
+	 /**
+	 * @throws AppException  User defined exception for method
+	 */
+	@Test
 	 public void searchInvalidComposerTest() throws AppException{
 		
 		 ArrayList<ComposerBean> cBean=dao.searchComposer("Anu Mlik");
 		 Assert.assertNotNull("No Match Found", cBean);
 	 }
-	 @Test
+	 /**
+	 * @throws AppException  User defined exception for method
+	 */ 
+	@Test
 	 public void searchValidComposerTest() throws AppException{
 			
 		 ArrayList<ComposerBean> cBean=dao.searchComposer("Anu Malik");
 		 Assert.assertNotNull("Match Found", cBean);
 	 }
 	 
-	 @Test
+	 /**
+	 * @throws AppException  User defined exception for method
+	 */
+	@Test
 	 public void searchInvalidArtistSongTest() throws AppException{
 		 ArrayList <SongBean> expected = new ArrayList <SongBean>();
 		// expected.add(new SongBean(200008,"Anu Malik",null,100000,null,100000,null,0));

@@ -4,6 +4,9 @@ package com.mcams.exception;
 public class AppException extends Exception {
 	String message;
 	
+	/**
+	 * @param msg Exception message in string
+	 */
 	public AppException(String msg) {
 		message = msg;
 	}

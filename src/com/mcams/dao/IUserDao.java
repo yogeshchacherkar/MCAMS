@@ -10,14 +10,14 @@ import com.mcams.bean.SongBean;
 public interface IUserDao {
 	
 	
-	/**
+	/**Method to search artist
 	 * @param name Name of artist in string
 	 * @return Array list of songs
 	 */
 	ArrayList<SongBean> searchArtist(String name);
 
 
-	/**
+	/**Method to change password
 	 * @param userId User Id in integer
 	 * @param newPassword New password in String
 	 * @return integer value:

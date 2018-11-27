@@ -11,17 +11,17 @@ import com.mcams.exception.AppException;
 
 public interface IAuthenticationService {
 	
-	/**
+	/**Method to check credentials
 	 * @param bean Object of AuthenticationBean class 
 	 * @return integer result:
 				  0 = Correct credentials
 				  1 = User record found but password not matched
 				 -1 = User record not present in database
-	 * @throws AppException
+	 * @throws AppException User defined exception for methods
 	 */
 	public UserBean checkCredentials(AuthenticationBean bean) throws AppException;
 
-	/**
+	/**Method to update security question
 	 * @param userId User Id in integer
 	 * @param queNo Question number in integer
 	 * @param answer Answer in string
@@ -32,19 +32,19 @@ public interface IAuthenticationService {
 	int updateSecQue(int userId, int queNo, String answer);
 
 	
-	/**
+	/**Method to search security question
 	 * @param userId User Id in string
 	 * @return secQueBean Object of SecQueBean class 
 	 */
 	SecQueBean searchSecQue(String userId);
 
-	/**
+	/**Method to get user
 	 * @param userId User Id in string 
 	 * @return userBean Object of UserBean class 
 	 */
 	UserBean getUser(String userId);
 
-	/**
+	/**Method to reset password
 	 * @param userId User Id in integer
 	 * @param randomPassword Random password in integer
 	 * @return integer value:
@@ -53,7 +53,7 @@ public interface IAuthenticationService {
 	 */
 	int resetPassword(int userId, int randomPassword);
 
-	/**
+	/**Method to check user
 	 * @param username User name in string
 	 * @return integer value:
 	 * 		0 = User is present 
@@ -63,7 +63,7 @@ public interface IAuthenticationService {
 	 */
 	int checkUser(String username);
 
-	/**
+	/**Method for registration
 	 * @param userBean Object of UserBean class
 	 * @return Integer value:
 	 * 		1 = User Id in integer

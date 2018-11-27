@@ -110,7 +110,7 @@ public class MCAMS {
 	
 	/**
 	 * @param args Command line argument
-	 * @throws AppException
+	 * @throws AppException  User defined exception for method
 	 * 
 	 */
 	
@@ -125,7 +125,7 @@ public class MCAMS {
 	}
 
 	/**
-	 * @throws AppException
+	 * @throws AppException  User defined exception for method
 	 */
 	private static void loginHome() throws AppException {
 		boolean isContinue;
@@ -424,7 +424,7 @@ public class MCAMS {
 	 * @param userId User Id in integer
 	 * @param password Password in string
 	 * @param username User name in string
-	 * @throws AppException
+	 * @throws AppException  User defined exception for method
 	 * 	
 	 */
 	private static void adminConsole(int userId,String password,String username) throws AppException {
@@ -490,7 +490,7 @@ public class MCAMS {
 			}
 		}
 	}
-	/**
+	/**Method to update security question
 	 * @param userId User Id in integer
 	 * @return Integer value:
 	 * 		0 = Security question updated successfully
@@ -1061,10 +1061,10 @@ public class MCAMS {
 		}
 	}
 	
-	/**
+	/**Method to create artist/composer
 	 * @param userId User Id in integer
 	 * @param password Password in string
-	 * @throws AppException
+	 * @throws AppException  User defined exception for method
 	 */
 	private static void createAC(int userId, String password) throws AppException {
 		String choice;
@@ -1091,7 +1091,7 @@ public class MCAMS {
 
 
 
-	/**
+	/**Method to edit artist/composer
 	 * @param userId User Id in integer
 	 */
 	private static void editAC(int userId) {
@@ -2083,7 +2083,7 @@ public class MCAMS {
 		}
 	}
 	
-	/**
+	/**Method to change password
 	 * @param userId User Id in integer
 	 * @param password Password in string
 	 * @return integer value:

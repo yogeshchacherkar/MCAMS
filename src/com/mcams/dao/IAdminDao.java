@@ -45,7 +45,7 @@ public interface IAdminDao {
 	 */
 	ArrayList<ArtistBean> searchArtist(String name);
 
-	/**Method to search artist
+	/**Method to search composer
 	 * @param name Name of composer in string
 	 * @return Object of ComposerBean class
 	 */
@@ -99,7 +99,7 @@ public interface IAdminDao {
 	 */
 	int deleteSong(int songId, int userId);
 
-	/**
+	/**Method to change password
 	 * @param userId User Id in integer
 	 * @param newPassword  New password in String
 	 * @return Integer value:

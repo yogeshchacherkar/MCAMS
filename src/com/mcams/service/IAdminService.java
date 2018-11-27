@@ -49,7 +49,7 @@ public interface IAdminService {
 	ArrayList<ArtistBean> searchArtist(String name);
 	
 	
-	/**Method to search artist
+	/**Method to search composer
 	 * @param name Name of composer in string
 	 * @return Object of ComposerBean class
 	 */
@@ -99,8 +99,8 @@ public interface IAdminService {
 	 */
 	int deleteArtist(int artistId, int userId);
 	
-	/**Method to delete song
-	 * @param songId Song Id in integer
+	/**Method to delete composer
+	 * @param userId User Id in integer
 	 * @param userId User Id in integer
 	 * @return integer value:
 	 * 		0 = Composer deleted successfully
@@ -118,7 +118,7 @@ public interface IAdminService {
 	 */
 	int deleteSong(int songId, int userId);
 
-	/**
+	/**Method to change password
 	 * @param userId User Id in integer
 	 * @param newPassword New password in string
 	 * @return Integer value:
