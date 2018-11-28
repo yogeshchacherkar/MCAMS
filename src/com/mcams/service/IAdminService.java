@@ -70,7 +70,7 @@ public interface IAdminService {
 	ComposerBean updateComposer(ComposerBean compBean);
 	
 
-	/**
+	/**Method to create artist song
 	 * @param songBean Object of SongBean class
 	 * @param artBean Object of ArtistBean class
 	 * @param userId User Id in integer
@@ -80,7 +80,7 @@ public interface IAdminService {
 	SongBean assocArtist(SongBean songBean, ArtistBean artBean, int userId, boolean isUpdate);
 	
 	
-	/**
+	/**Method to create composer song
 	 * @param songBean Object of SongBean class
 	 * @param compBean Object of ComposerBean class
 	 * @param userId User Id in integer
@@ -100,7 +100,7 @@ public interface IAdminService {
 	int deleteArtist(int artistId, int userId);
 	
 	/**Method to delete composer
-	 * @param userId User Id in integer
+	 * @param composerId Composer Id in integer
 	 * @param userId User Id in integer
 	 * @return integer value:
 	 * 		0 = Composer deleted successfully

@@ -25,5 +25,12 @@ public interface IUserDao {
 	 * 		1 = Exception occurs		
 	 */
 	int changePassword(int userId, String newPassword);
+
+
+	/**Method to search composer
+	 * @param name Name of composer in string
+	 * @return Array list of songs
+	 */
+	ArrayList<SongBean> serachComposer(String name);
 	
 }

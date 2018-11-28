@@ -8,6 +8,7 @@ import com.mcams.bean.SongBean;
  * Interface contains all functions of User service
  *
  */
+
 public interface IUserService {
 	
 

@@ -63,7 +63,7 @@ public interface IAdminDao {
 	 */
 	ComposerBean updateComposer(ComposerBean compBean);
 
-	/**
+	/**Method to create artist song
 	 * @param songBean Object of SongBean class
 	 * @param artBean Object of ArtistBean class
 	 * @param userId User Id in integer
@@ -72,7 +72,7 @@ public interface IAdminDao {
 	 */
 	SongBean assocArtist(SongBean songBean, ArtistBean artBean, int userId, boolean isUpdate);
 	
-	/**
+	/**Method to create composer song
 	 * @param songBean Object of SongBean class
 	 * @param compBean Object of ComposerBean class
 	 * @param userId User Id in integer
@@ -107,5 +107,15 @@ public interface IAdminDao {
 	 * 		1 = Exception occurs		
 	 */
 	int changePassword(int userId, String newPassword);
+
+	/**
+	 Method to delete composer
+	 * @param composerId Composer Id in integer
+	 * @param userId User Id in integer
+	 * @return integer value:
+	 * 		0 = Composer deleted successfully
+	 * 		1 = Exception occurs		
+	 */
+	int deleteComposer(int composerId, int userId);
 
 }

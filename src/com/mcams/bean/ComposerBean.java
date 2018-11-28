@@ -51,7 +51,7 @@ public class ComposerBean {
 		return bornDate;
 	}
 	/**
-	 * @param Born date to set in Local date
+	 * @param bornDate to set in Local date
 	 */
 	public void setBornDate(LocalDate bornDate) {
 		this.bornDate = bornDate;

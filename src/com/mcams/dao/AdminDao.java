@@ -555,6 +555,7 @@ public class AdminDao implements IAdminDao {
 		
 	}
 
+	@Override
 	public int deleteComposer(int composerId, int userId) {
 		PropertyConfigurator.configure(MCAMS.path);
 		ResultSet rs;

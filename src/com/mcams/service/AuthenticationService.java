@@ -1,3 +1,8 @@
+/**
+ * @author ychacher gyhtfghfgh
+ *
+ */
+
 package com.mcams.service;
 
 import com.mcams.bean.AuthenticationBean;
@@ -5,6 +10,7 @@ import com.mcams.bean.SecQueBean;
 import com.mcams.bean.UserBean;
 import com.mcams.dao.AuthenticationDAO;
 import com.mcams.exception.AppException;
+
 
 public class AuthenticationService implements IAuthenticationService {
 	AuthenticationDAO dao = new AuthenticationDAO();
