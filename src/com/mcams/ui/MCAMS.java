@@ -2135,7 +2135,7 @@ public class MCAMS {
 					System.out.print("LOGOUT NOW? (y/n): ");
 					choice = scan.nextLine();
 					
-					if(choice.equals("y")) {clearScreen(); return 0;}
+					if(choice.equals("y")) {clearScreen(); attempt=3; return 0;}
 					else if(choice.equals("n")) {clearScreen(); newPass=newPassword; return 1;}
 					else System.out.println("\nPlease enter valid choice!\n");
 				}
@@ -2195,7 +2195,11 @@ public class MCAMS {
 	 *Method to exit program 
 	 */
 	public static void exit() {
-		System.out.println("\n<-PROGRAM TERMINATED->");
+		System.out.print("\nTerminating program");
+		for(int i=0;i<4;i++) {
+			sleep(1);
+			System.out.print(".");
+		}
 		System.exit(0);		
 	}
 

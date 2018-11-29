@@ -70,7 +70,10 @@ public class ValidationService implements IValidationService {
 	
 	@Override
 	public boolean validatePassword(String password) {
-		if(password.length()>8 && password.length()<50) return true;
+		if(password.length()>8 && password.length()<50) {
+			if(password.matches("[a-zA-Z0-9@]{8,50}")) return true;
+			else return false;
+		}
 		else return false;
 	}
 
