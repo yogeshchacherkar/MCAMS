@@ -29,19 +29,19 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 			
 			if(rs.next()) {
 				if(bean.getPassword().equals(rs.getString(1))){
-					myLogger.info("Login Successfully");
+					myLogger.info(rs.getString(2)+" logged in successfully.");
 					userBean.setUserId(0);
 					userBean.setUserName(rs.getString(2));
 					return userBean;
 				}
 				else{
-					myLogger.info("Password not matched");
+					myLogger.info("Password not matched for id "+bean.getUserId());
 					userBean.setUserId(1);
 					return userBean;
 				}
 			}
 			else{
-				myLogger.info("User not exist");
+				myLogger.info("User not exist with user id "+bean.getUserId());
 				userBean.setUserId(-1);
 				return userBean;
 			}
@@ -58,7 +58,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 		try {
 			Statement st = conn.createStatement();
 			st.executeUpdate(sql);
-			myLogger.info("Security question updated");
+			myLogger.info("Security question updated. {"+queNo+", "+answer+"}");
 			return 0;
 		} catch (SQLException e) {
 			myLogger.error(e);
@@ -119,7 +119,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 			String sql = "UPDATE User_Master SET User_Password='"+randomPassword+"' WHERE User_Id="+userId;
 			Statement st = conn.createStatement();
 			st.executeUpdate(sql);
-			myLogger.info("User's Password reset");
+			myLogger.info("User's Password reset for id "+userId);
 			return 0;
 		} catch (SQLException e) {
 			myLogger.error(e);
@@ -146,13 +146,14 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 			String sql = "INSERT INTO User_Master VALUES(userSeq.NEXTVAL,'"+userBean.getUserName()+"','"+userBean.getUserPassword()+"',"+userBean.getSecQueId()+",'"+userBean.getSecQueAnswer()+"',userSeq.NEXTVAL,SYSDATE,userSeq.NEXTVAL,SYSDATE)";
 			Statement st = conn.createStatement();
 			st.executeUpdate(sql);
-			
+			myLogger.info("User registered with ID "+userBean.getUserId());
 			//Fetching generated record id
 			sql = "SELECT userSeq.CURRVAL FROM DUAL";
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
 			return rs.getInt(1);
 		}catch(SQLException e) {
+			myLogger.error(e);
 			return 0;
 		}
 	}

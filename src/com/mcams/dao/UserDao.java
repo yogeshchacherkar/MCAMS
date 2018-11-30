@@ -6,10 +6,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 import com.mcams.bean.SongBean;
+import com.mcams.ui.MCAMS;
 
 public class UserDao implements IUserDao {
 	Connection conn = AuthenticationDAO.conn;
+	Logger myLogger =  Logger.getLogger(UserDao.class.getName());
 	
 	@Override
 	public ArrayList<SongBean> searchArtist(String name) {
@@ -75,13 +80,15 @@ public class UserDao implements IUserDao {
 	
 	@Override
 	public int changePassword(int userId, String newPassword) {
+		PropertyConfigurator.configure(MCAMS.path);
 		try {
 			String sql = "UPDATE User_Master SET User_Password='"+newPassword+"' WHERE User_Id="+userId;
 			Statement st = conn.createStatement();
 			st.executeUpdate(sql);
+			myLogger.info("Password changed of id "+userId);
 			return 0;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			myLogger.error(e);
 			return 1;
 		}
 	}

@@ -67,16 +67,14 @@ public class AdminDao implements IAdminDao {
 				rs = st.executeQuery("SELECT artistSeq.CURRVAL FROM DUAL");
 				rs.next();
 				artBean.setId(rs.getInt(1));
-				myLogger.info(" artist created " +artBean);
+				myLogger.info("Artist created with id " +rs.getInt(1));
 				return artBean;
 				
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
 				artBean.setId(0);
-				myLogger.info(" Exception found"+e.getMessage() );
+				myLogger.error(e);
 				return artBean;
-			}
-			
+			}	
 		}
 	}
 
@@ -89,8 +87,9 @@ public class AdminDao implements IAdminDao {
 					sql = "INSERT INTO MusicSociety_Master VALUES('"+new String(compBean.getMusicSocietyId())+"','"+mSocietyName+"')";
 					st = conn.createStatement();
 					st.executeUpdate(sql);
+					myLogger.info("Music society created {"+new String(compBean.getMusicSocietyId())+", "+mSocietyName+"}");
 				} catch (SQLException e) {
-					myLogger.info(" Exception found" );
+					myLogger.error(e);
 				}
 			}
 			compBean = updateComposer(compBean);
@@ -115,8 +114,7 @@ public class AdminDao implements IAdminDao {
 						st = conn.createStatement();
 						st.executeUpdate(sql);
 					} catch (SQLException e) {
-						myLogger.info(" Exception found" +e.getMessage());
-						e.printStackTrace();
+						myLogger.error(e);
 					}
 				}
 				
@@ -130,17 +128,14 @@ public class AdminDao implements IAdminDao {
 				st.executeUpdate(sql);
 				rs = st.executeQuery("SELECT composerSeq.CURRVAL FROM DUAL");
 				rs.next();
-				myLogger.info(" composer added " + compBean);
+				myLogger.info("Composer created with id " +rs.getInt(1));
 				return rs.getInt(1);
 				
 			} catch (SQLException e) {
-				myLogger.info(" Exception found" +e.getMessage());
+				myLogger.error(e);
 				return 0;
-			}
-			
+			}		
 		}
-		
-		
 	}
 	
 	@Override
@@ -169,12 +164,10 @@ public class AdminDao implements IAdminDao {
 					sb.setUpdatedOn(rs.getDate(7).toLocalDate());
 					songList.add(sb);
 				}
-				myLogger.info(" artist song found ");
 				return songList;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" +e.getMessage());
+			myLogger.error(e);
 			return null;
 		}
 	}
@@ -205,12 +198,10 @@ public class AdminDao implements IAdminDao {
 					sb.setUpdatedOn(rs.getDate(7).toLocalDate());
 					songList.add(sb);
 				}
-				myLogger.info(" composer song found ");
 				return songList;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" + e.getMessage());
+			myLogger.error(e);
 			return null;
 		}
 	}
@@ -229,7 +220,6 @@ public class AdminDao implements IAdminDao {
 				st = conn.createStatement();
 				rs = st.executeQuery(sql);
 				if(!rs.next()) {
-					myLogger.info(" artist not found ");
 					return artistList;
 				}
 				do{
@@ -246,7 +236,6 @@ public class AdminDao implements IAdminDao {
 					ab.setUpdatedOn(rs.getDate(8).toLocalDate());
 					artistList.add(ab);
 				}while(rs.next());
-				myLogger.info(" Artist found ");
 				return artistList;
 			}
 			else {
@@ -262,13 +251,11 @@ public class AdminDao implements IAdminDao {
 				ab.setUpdatedBy(rs.getInt(7));
 				ab.setUpdatedOn(rs.getDate(8).toLocalDate());
 				artistList.add(ab);
-				myLogger.info(" Artist found ");
 				return artistList;
 			}
 		}
 		catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return artistList;
 		}
 	}
@@ -287,7 +274,6 @@ public class AdminDao implements IAdminDao {
 				st = conn.createStatement();
 				rs = st.executeQuery(sql);
 				if(!rs.next()) {
-					myLogger.info(" composer not found ");
 					return composerList;
 				}
 				do{
@@ -306,7 +292,6 @@ public class AdminDao implements IAdminDao {
 					cb.setUpdatedOn(rs.getDate(10).toLocalDate());
 					composerList.add(cb);
 				}while(rs.next());
-				myLogger.info(" Composer found ");
 				return composerList;
 			}
 			else {
@@ -324,13 +309,11 @@ public class AdminDao implements IAdminDao {
 				cb.setUpdatedBy(rs.getInt(9));
 				cb.setUpdatedOn(rs.getDate(10).toLocalDate());
 				composerList.add(cb);
-				myLogger.info(" Composer found ");
 				return composerList;
 			}
 		}
 		catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return composerList;
 		}
 	}
@@ -349,7 +332,7 @@ public class AdminDao implements IAdminDao {
 		sql = "UPDATE Artist_Master SET Artist_Name='"+artBean.getName()+"',Artist_BornDate="+bDate+",Artist_DiedDate="+dDate+",Updated_by="+artBean.getUpdatedBy()+",Updated_On=SYSDATE,Artist_DeletedFlag=0 WHERE Artist_Id="+artBean.getId();
 		try {
 			st.executeUpdate(sql);
-			myLogger.info(" Artist updated ");
+			myLogger.info("Artist updated with id ");
 			return artBean;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
