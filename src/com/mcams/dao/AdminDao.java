@@ -332,11 +332,11 @@ public class AdminDao implements IAdminDao {
 		sql = "UPDATE Artist_Master SET Artist_Name='"+artBean.getName()+"',Artist_BornDate="+bDate+",Artist_DiedDate="+dDate+",Updated_by="+artBean.getUpdatedBy()+",Updated_On=SYSDATE,Artist_DeletedFlag=0 WHERE Artist_Id="+artBean.getId();
 		try {
 			st.executeUpdate(sql);
-			myLogger.info("Artist updated with id ");
+			myLogger.info("Artist updated with id "+artBean.getId());
 			return artBean;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return artBean;
 		}
 	}
@@ -355,11 +355,10 @@ public class AdminDao implements IAdminDao {
 		sql = "UPDATE Composer_Master SET Composer_Name='"+compBean.getName()+"',Composer_BornDate="+bDate+",Composer_DiedDate="+dDate+",Composer_Caeipinumber='"+compBean.getCaeipiNumber()+"',Composer_Musicsocietyid='"+new String(compBean.getMusicSocietyId())+"',Updated_by="+compBean.getUpdatedBy()+",Updated_On=SYSDATE,Composer_DeletedFlag=0 WHERE Composer_Id="+compBean.getId();
 		try {
 			st.executeUpdate(sql);
-			myLogger.info(" Composer updated ");
+			myLogger.info("Composer updated with id "+compBean.getId());
 			return compBean;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return compBean;
 		}
 	}
@@ -373,10 +372,11 @@ public class AdminDao implements IAdminDao {
 			sql = "INSERT INTO Artist_Song_Assoc VALUES("+songBean.getId()+","+artBean.getId()+","+userId+",SYSDATE,"+userId+",SYSDATE)";
 			try {
 				st.executeUpdate(sql);
+				myLogger.info(songBean.getId()+" associated to "+artBean.getId()+" by "+userId);
 				return getSong;
 			} catch (SQLException e) {
 				songBean.setId(0);
-				myLogger.info(" Exception found" );
+				myLogger.error(e);
 				return songBean;
 			}
 			
@@ -416,18 +416,15 @@ public class AdminDao implements IAdminDao {
 				
 				sql = "INSERT INTO Artist_Song_Assoc VALUES("+songBean.getId()+","+artBean.getId()+","+userId+",SYSDATE,"+userId+",SYSDATE)";
 				st.executeUpdate(sql);
-				myLogger.info(" artist song inserted ");
+				myLogger.info("Song inserted with id "+rs.getInt(1));
 				return songBean;
 				
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
 				songBean.setId(0);
-				myLogger.info(" Exception found" );
+				myLogger.error(e);
 				return songBean;
-			}
-			
+			}	
 		}
-		
 	}
 
 	private SongBean updateSong(SongBean songBean, int userId) {
@@ -435,12 +432,11 @@ public class AdminDao implements IAdminDao {
 		sql = "UPDATE Song_Master SET Song_Name='"+songBean.getName()+"',Song_Duration='01-JAN-2000 12:"+songBean.getDuration().getMinute()+":"+songBean.getDuration().getSecond()+"',Created_By="+songBean.getCreatedBy()+",Created_On=SYSDATE,Updated_By="+songBean.getUpdatedBy()+",Updated_On=SYSDATE,Song_DeletedFlag=0 WHERE Song_Id="+songBean.getId();
 		try {
 			st.executeUpdate(sql);
-			myLogger.info(" song updated ");
+			myLogger.info("Song updated with id "+songBean.getId());
 			return songBean;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 			songBean.setId(0);
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return songBean;
 		}
 	}
@@ -454,10 +450,11 @@ public class AdminDao implements IAdminDao {
 			sql = "INSERT INTO Composer_Song_Assoc VALUES("+songBean.getId()+","+compBean.getId()+","+userId+",SYSDATE,"+userId+",SYSDATE)";
 			try {
 				st.executeUpdate(sql);
+				myLogger.info(songBean.getId()+" associated to "+compBean.getId());
 				return getSong;
 			} catch (SQLException e) {
 				songBean.setId(0);
-				myLogger.info(" Exception found" );
+				myLogger.error(e);
 				return songBean;
 			}
 			
