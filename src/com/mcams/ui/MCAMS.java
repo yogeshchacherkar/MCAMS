@@ -135,8 +135,7 @@ public class MCAMS {
 			
 			int choice;
 			while(true){
-				clearScreen();			
-				System.out.println("*************Music_Composer_and_Artist_Management_System*************\n");
+				clearScreen();
 				
 				System.out.println("1. Register");
 				System.out.println("2. Login");
@@ -146,14 +145,14 @@ public class MCAMS {
 				choice = valService.validateChoice(scan.nextLine());
 				
 				if(choice == 1) register();
-				else if(choice == 2) break;
+				else if(choice == 2) {clearScreen(); break;}
 				else if(choice == 3) forgotPassword();
 				else if(choice == 4) exit();
 				else System.out.println("\nPlease enter valid choice!\n");
+				sleep(2);
 			}
 			
-			
-				
+			System.out.println("LOGIN");	
 			while(true) {
 				System.out.print("\nEnter user id: ");
 				userId = scan.nextLine();
@@ -193,11 +192,13 @@ public class MCAMS {
 					break;
 				}
 				else {
-					if(userBean.getUserId() == 1)
+					if(userBean.getUserId() == 1) {
 						System.out.println("\nERROR: Invalid Password!\n");
+					}
 					else{
 						System.out.println("\nERROR: user "+authBean.getUserId()+" doesn't exist.\n");
 						isContinue = true;
+						sleep(2);
 						break;
 					}
 						
@@ -261,7 +262,11 @@ public class MCAMS {
 			if(validity == 0) {
 				while(true) {
 					System.out.print("Enter password: ");
-					password = scan.nextLine();
+					if(console != null)
+						password = new String(console.readPassword());
+					else
+						password = scan.nextLine();
+					
 					isValid = valService.validatePassword(password);
 					if(isValid) break;
 					else {
@@ -315,8 +320,10 @@ public class MCAMS {
 						if(scan.nextLine().equalsIgnoreCase("CONFIRM")) return;
 					}
 				}
-				else System.out.println("\nRegistration Failed due to internal problem.\nPlease try again later...\n");
-				sleep(3);
+				else {
+					System.out.println("\nRegistration Failed due to internal problem.\nPlease try again later...\n");
+					sleep(3);
+				}
 				return;
 			}
 			else if(validity == 1) {
@@ -364,7 +371,7 @@ public class MCAMS {
 					choice = scan.nextLine();
 					
 					if(choice.equalsIgnoreCase("y")) break;
-					else if(choice.equalsIgnoreCase("n")) return;
+					else if(choice.equalsIgnoreCase("n")) {clearScreen(); return;}
 					else System.out.println("\nPlease enter valid choice!\n");
 				}
 				continue;
@@ -429,10 +436,11 @@ public class MCAMS {
 	 */
 	private static void adminConsole(int userId,String password,String username) throws AppException {
 		int choice;
-		System.out.println("Welcome "+username+"!\n");
+		
 		
 		while(true){
-			
+			clearScreen();
+			System.out.println("Welcome "+username+"!\n");
 			System.out.println("1. Create Artist/Composer");
 			System.out.println("2. Search Artist/Composer");
 			System.out.println("3. Edit Artist/Composer");
@@ -470,7 +478,9 @@ public class MCAMS {
 	/**Method for account setting
 	 * @param userId User Id in integer
 	 * @param password Password in string
-	 * 
+	 * @return integer value
+	 * 		0 = return to login page
+	 * 		1 = return to console page
 	 */
 	private static int accountSetting(int userId, String password) {
 		clearScreen();
@@ -538,6 +548,7 @@ public class MCAMS {
 		while(true) {
 			clearScreen();
 			String name;
+			int choice1;
 			while(true){
 				System.out.println("\nDELETE SONG");
 				System.out.print("Enter Song Name: ");
@@ -547,18 +558,60 @@ public class MCAMS {
 				else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
 			}
 			
-			SongBean getSong = adminService.searchSong(name);
-			
-			if(getSong!=null) {
-				int result = adminService.deleteSong(getSong.getId(), userId);
-				if(result==0) System.out.println("Song Deleted Successfully!");
-				else System.out.println("Something went wrong! Please try again later...");
+			ArrayList<SongBean> songList = adminService.searchSong(name);
+			SongBean sBean = new SongBean();
+			if(songList.isEmpty()) System.out.println("No Record Found!");
+			else if(songList.size() == 1) {
+				for (SongBean songBean : songList) {
+					sBean = songBean;
+					String duration;
+					if(sBean.getDuration().getSecond()<10) duration=sBean.getDuration().getMinute()+":0"+sBean.getDuration().getSecond();
+					else duration=sBean.getDuration().getMinute()+":"+sBean.getDuration().getSecond();
+					System.out.println("Song Name: " + sBean.getName());
+					System.out.println("Duration: " + duration);
+				}
 			}
-			else System.out.println("\nNo Record Found!\n");
+			else {
+				int i = 1;
+				System.out.println("No record matched with this Name");
+				System.out.println("Related Searches:");
+				for (SongBean songBean : songList) {
+					System.out.println(i + ". " + songBean.getName());
+					i++;
+				}
+				while(true){
+					System.out.print("Enter your choice: ");
+					choice1 = valService.validateChoice(scan.nextLine());
+					if(choice1 <= songList.size() && choice1>0){
+						sBean = songList.get(choice1-1);
+						String duration;
+						if(sBean.getDuration().getSecond()<10) duration=sBean.getDuration().getMinute()+":0"+sBean.getDuration().getSecond();
+						else duration=sBean.getDuration().getMinute()+":"+sBean.getDuration().getSecond();
+						System.out.println("Song Name: "+sBean.getName());
+						System.out.println("Duration: "+duration);
+						break;
+					}
+					else System.out.println("Please Enter valid choice");
+				}
+				
+				
+				
+			}
+			String choice;
+			if(!songList.isEmpty()) {
+				System.out.print("\nDo you want to delete this Song? (y/n): ");
+				choice = scan.nextLine();
+				if(choice.equalsIgnoreCase("y")) {
+					int result = adminService.deleteSong(sBean.getId(), userId);
+					if(result==0) System.out.println("Song Deleted Successfully!");
+					else System.out.println("\nUnable to delete! Please try again later...");
+				}
+				else {clearScreen(); return;}
+			}
 			
 			while(true) {
 				System.out.print("\nDo you want to continue? (y/n): ");
-				String choice = scan.nextLine();
+				choice = scan.nextLine();
 				
 				if(choice.equalsIgnoreCase("y")) break;
 				else if(choice.equalsIgnoreCase("n")) {clearScreen(); return;}
@@ -598,6 +651,7 @@ public class MCAMS {
 	 * @param userId User Id in integer
 	 */
 	private static void deleteComposer(int userId) {
+		String format = "%-2s %-16s %2s %-20s %2s";
 		while(true) {
 			clearScreen();
 			int choice1;
@@ -621,12 +675,18 @@ public class MCAMS {
 					else bornDate = bean.getBornDate().toString();
 					if(bean.getDiedDate() == null) diedDate="NA";
 					else diedDate = bean.getDiedDate().toString();
-					System.out.println("Composer's Id: "+bean.getId());
-					System.out.println("Composer's Name: "+bean.getName());
-					System.out.println("Composer's Born Date: "+bornDate);
-					System.out.println("Composer's Died Date: "+diedDate);
-					System.out.println("Composer's CAE IPI Number: "+bean.getCaeipiNumber());
-					System.out.println("Composer's Music Society Id: "+new String(bean.getMusicSocietyId()));	
+					
+					System.out.println("---------------------------------------------");
+					System.out.println("|           Composer Information            |");
+					System.out.println("---------------------------------------------");
+					
+					System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+					System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+					System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+					System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+					System.out.printf(format, "|", "CAE IPI Number", "|", bean.getCaeipiNumber(), "|\n");
+					System.out.printf(format, "|", "Music Society Id", "|", new String(bean.getMusicSocietyId()), "|\n");
+					System.out.println("---------------------------------------------\n");	
 				}
 			}
 			else{
@@ -648,26 +708,34 @@ public class MCAMS {
 						if(bean.getDiedDate() == null) diedDate="NA";
 						else diedDate = bean.getDiedDate().toString();
 						
-						System.out.println("Composer's Id: "+bean.getId());
-						System.out.println("Composer's Name: "+bean.getName());
-						System.out.println("Composer's Born Date: "+bornDate);
-						System.out.println("Composer's Died Date: "+diedDate);
-						System.out.println("Composer's CAE IPI Number: "+bean.getCaeipiNumber());
-						System.out.println("Composer's Music Society Id: "+new String(bean.getMusicSocietyId()));	
+						System.out.println("---------------------------------------------");
+						System.out.println("|           Composer Information            |");
+						System.out.println("---------------------------------------------");
+						
+						System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+						System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+						System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+						System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+						System.out.printf(format, "|", "CAE IPI Number", "|", bean.getCaeipiNumber(), "|\n");
+						System.out.printf(format, "|", "Music Society Id", "|", new String(bean.getMusicSocietyId()), "|\n");
+						System.out.println("---------------------------------------------\n");		
 						break;
 					}
 					else System.out.println("Please Enter valid choice");
 				}
 			}
 			
-			System.out.print("\nDo you want to delete this Composer? (y/n): ");
-			String choice = scan.nextLine();
-			if(choice.equalsIgnoreCase("y")) {
-				int result = adminService.deleteComposer(bean.getId(),userId);
-				if(result==0) System.out.println("Composer Deleted successfully!");
-				else System.out.println("\nSomething went wrong! Please try again later...");
+			String choice;
+			if(!beanList.isEmpty()) {
+				System.out.print("\nDo you want to delete this Composer? (y/n): ");
+				choice = scan.nextLine();
+				if(choice.equalsIgnoreCase("y")) {
+					int result = adminService.deleteComposer(bean.getId(),userId);
+					if(result==0) System.out.println("Composer Deleted successfully!");
+					else System.out.println("\nUnable to delete! Please try again later...");
+				}
+				else {clearScreen(); return;}
 			}
-			else return;
 
 			while(true) {
 				System.out.print("\nDo you want to continue? (y/n): ");
@@ -685,6 +753,7 @@ public class MCAMS {
 	 * @param userId UserId in integer
 	 */
 	private static void deleteArtist(int userId) {
+		String format = "%-2s %-10s %2s %-20s %2s";
 		while(true) {
 			clearScreen();
 			int choice1;
@@ -708,10 +777,15 @@ public class MCAMS {
 					else bornDate = bean.getBornDate().toString();
 					if(bean.getDiedDate() == null) diedDate="NA";
 					else diedDate = bean.getDiedDate().toString();
-					System.out.println("Artist's Id: "+bean.getId());
-					System.out.println("Artist Name: "+bean.getName());
-					System.out.println("Artist's Born Date: "+bornDate);
-					System.out.println("Artist's Died Date: "+diedDate);	
+					System.out.println("---------------------------------------");
+					System.out.println("|          Artist Information         |");
+					System.out.println("---------------------------------------");
+					
+					System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+					System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+					System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+					System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+					System.out.println("---------------------------------------\n");
 				}
 			}
 			else{
@@ -733,25 +807,32 @@ public class MCAMS {
 						if(bean.getDiedDate() == null) diedDate="NA";
 						else diedDate = bean.getDiedDate().toString();
 						
-						System.out.println("Artist's Id: "+bean.getId());
-						System.out.println("Artist Name: "+bean.getName());
-						System.out.println("Artist's Born Date: "+bornDate);
-						System.out.println("Artist's Died Date: "+diedDate);	
+						System.out.println("---------------------------------------");
+						System.out.println("|          Artist Information         |");
+						System.out.println("---------------------------------------");
+						
+						System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+						System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+						System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+						System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+						System.out.println("---------------------------------------\n");	
 						break;
 					}
 					else System.out.println("Please Enter valid choice");
 				}
 			}
-			
-			System.out.print("\nDo you want to delete this artist? (y/n): ");
-			String choice = scan.nextLine();
-			if(choice.equalsIgnoreCase("y")) {
-				int result = adminService.deleteArtist(bean.getId(),userId);
-				if(result==0) System.out.println("Artist Deleted successfully!");
-				else System.out.println("\nSomething went wrong! Please try again later...");
+			String choice;
+			if(!beanList.isEmpty()) {
+				System.out.print("\nDo you want to delete this artist? (y/n): ");
+				choice = scan.nextLine();
+				if(choice.equalsIgnoreCase("y")) {
+					int result = adminService.deleteArtist(bean.getId(),userId);
+					if(result==0) System.out.println("Artist Deleted successfully!");
+					else System.out.println("\nUnable to delete! Please try again later...");
+				}
+				else {clearScreen(); return;}
 			}
-			else return;
-
+			
 			while(true) {
 				System.out.print("\nDo you want to continue? (y/n): ");
 				choice = scan.nextLine();
@@ -930,10 +1011,10 @@ public class MCAMS {
 			}
 			
 			while(true){
-				System.out.print("Duration: ");
+				System.out.print("Duration (mm:ss) : ");
 				duration = valService.validateDuration(scan.nextLine());
 				if(duration!=null) break;
-				else System.out.println("\nPlease enter valid Duration! (mm:ss)\n");
+				else System.out.println("\nPlease enter valid Duration! (mm:ss)\nDuration should be greater than 02:30\n");
 			}
 			songBean.setName(songName);
 			songBean.setDuration(duration);
@@ -1038,7 +1119,8 @@ public class MCAMS {
 		int choice;
 		
 		while(true) {
-			System.out.println("Welcome user: "+username+"\n");
+			clearScreen();
+			System.out.println("Welcome "+username+"\n");
 			System.out.println("1. Search Artist/Composer's songs");
 			System.out.println("2. ACCOUNT SETTING");
 			System.out.println("3. LOGOUT");
@@ -1122,6 +1204,7 @@ public class MCAMS {
 	 * @param userId User Id in integer
 	 */
 	private static void editComposer(int userId) {
+		String format = "%-2s %-16s %2s %-20s %2s";
 		while(true){
 			clearScreen();
 			String name, bornDate="", diedDate="", caeIpi;
@@ -1129,7 +1212,7 @@ public class MCAMS {
 			int choice1;
 			LocalDate bDate, dDate;
 			while(true){
-				System.out.println("\nEDIT COMPOSER");
+				System.out.println("EDIT COMPOSER");
 				System.out.print("Enter Composer name: ");
 				name = scan.nextLine();
 				boolean isValid = valService.validateName(name);
@@ -1141,7 +1224,6 @@ public class MCAMS {
 			ComposerBean bean = new ComposerBean();
 			if(beanList.isEmpty()) System.out.println("\nNo Record Found!\n");
 			else if(beanList.size() == 1){
-				System.out.println("******Existing Information*******");
 				for (ComposerBean composerBean : beanList) {
 					bean = composerBean;
 					if(bean.getBornDate() == null) bornDate="NA";
@@ -1149,16 +1231,21 @@ public class MCAMS {
 					if(bean.getDiedDate() == null) diedDate="NA";
 					else diedDate = bean.getDiedDate().toString();
 					
-					System.out.println("Composer's Id: "+bean.getId());
-					System.out.println("Composer's Name: "+bean.getName());
-					System.out.println("Composer's Born Date: "+bornDate);
-					System.out.println("Composer's Died Date: "+diedDate);
-					System.out.println("Composer's CAE IPI Number: "+bean.getCaeipiNumber());
-					System.out.println("Composer's Music Society Id: "+new String(bean.getMusicSocietyId()));
-					System.out.println("Created By: "+bean.getCreatedBy());
-					System.out.println("Created On: "+bean.getCreatedOn());
-					System.out.println("Updated By: "+bean.getUpdatedBy());
-					System.out.println("Updated On: "+bean.getUpdatedOn());
+					System.out.println("---------------------------------------------");
+					System.out.println("|       Existing Composer Information       |");
+					System.out.println("---------------------------------------------");
+					
+					System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+					System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+					System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+					System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+					System.out.printf(format, "|", "CAE IPI Number", "|", bean.getCaeipiNumber(), "|\n");
+					System.out.printf(format, "|", "Music Society Id", "|", new String(bean.getMusicSocietyId()), "|\n");
+					System.out.printf(format, "|", "Created By", "|", bean.getCreatedBy(), "|\n");
+					System.out.printf(format, "|", "Created On", "|", bean.getCreatedOn(), "|\n");
+					System.out.printf(format, "|", "Updated By", "|", bean.getUpdatedBy(), "|\n");
+					System.out.printf(format, "|", "Updated On", "|", bean.getUpdatedOn(), "|\n");
+					System.out.println("---------------------------------------------\n");
 				}
 			}
 			else{
@@ -1180,93 +1267,100 @@ public class MCAMS {
 						else bornDate = bean.getBornDate().toString();
 						if(bean.getDiedDate() == null) diedDate="NA";
 						else diedDate = bean.getDiedDate().toString();
-						System.out.println("******Existing Information*******");
-						System.out.println("Composer's Id: "+bean.getId());
-						System.out.println("Composer's Name: "+bean.getName());
-						System.out.println("Composer's Born Date: "+bornDate);
-						System.out.println("Composer's Died Date: "+diedDate);
-						System.out.println("Composer's CAE IPI Number: "+bean.getCaeipiNumber());
-						System.out.println("Composer's Music Society Id: "+new String(bean.getMusicSocietyId()));
-						System.out.println("Created By: "+bean.getCreatedBy());
-						System.out.println("Created On: "+bean.getCreatedOn());
-						System.out.println("Updated By: "+bean.getUpdatedBy());
-						System.out.println("Updated On: "+bean.getUpdatedOn());
+						
+						System.out.println("---------------------------------------------");
+						System.out.println("|      Existing Composer Information        |");
+						System.out.println("---------------------------------------------");
+						
+						System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+						System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+						System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+						System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+						System.out.printf(format, "|", "CAE IPI Number", "|", bean.getCaeipiNumber(), "|\n");
+						System.out.printf(format, "|", "Music Society Id", "|", new String(bean.getMusicSocietyId()), "|\n");
+						System.out.printf(format, "|", "Created By", "|", bean.getCreatedBy(), "|\n");
+						System.out.printf(format, "|", "Created On", "|", bean.getCreatedOn(), "|\n");
+						System.out.printf(format, "|", "Updated By", "|", bean.getUpdatedBy(), "|\n");
+						System.out.printf(format, "|", "Updated On", "|", bean.getUpdatedOn(), "|\n");
+						System.out.println("---------------------------------------------\n");
 						break;
 					}
 					else System.out.println("Please Enter valid choice");
 				}
 			}
 
-			System.out.println("Enter Details you want to update");
-			while(true){
-				System.out.print("Enter name: ");
-				name = scan.nextLine();
-				boolean isValid = valService.validateName(name);
-				if(isValid) break;
-				else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
-			}
-		
-			while(true){
-				System.out.print("Enter Born Date (dd/mm/yyyy) (If not available then type 'NA'): ");
-				String input = scan.nextLine();
-			
-				if(!input.equalsIgnoreCase("NA")){
-					bDate = valService.validateDate(input);
-					if(bDate!=null) break;
-					else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
+			if(!beanList.isEmpty()) {
+				System.out.println("Enter Details you want to update");
+				while(true){
+					System.out.print("Enter name: ");
+					name = scan.nextLine();
+					boolean isValid = valService.validateName(name);
+					if(isValid) break;
+					else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
 				}
-				else{
-					bDate=null;
-					break;
-				}
-			}
-		
-			while(true){
-				System.out.print("Enter Died Date (mm/dd/yyyy) (If not available then type 'NA'): ");
-				String input = scan.nextLine();
 			
-				if(!input.equalsIgnoreCase("NA")){
-					dDate = valService.validateDate(input);
-					if(bDate.isAfter(dDate)){
-						System.out.println("\nDied date should be after Born date");
-						continue;
+				while(true){
+					System.out.print("Enter Born Date (dd/mm/yyyy) (If not available then type 'NA'): ");
+					String input = scan.nextLine();
+				
+					if(!input.equalsIgnoreCase("NA")){
+						bDate = valService.validateDate(input);
+						if(bDate!=null) break;
+						else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
 					}
-					if(dDate!=null) break;
-					else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
+					else{
+						bDate=null;
+						break;
+					}
 				}
-				else{
-					dDate=null;
-					break;
-				}
-			}
 			
-			while(true){
-				System.out.print("Enter CAE IPI number: ");
-				caeIpi = scan.nextLine();
-				boolean isValid = valService.validateCaeIpi(caeIpi);
-				if(isValid) break;
-				else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
+				while(true){
+					System.out.print("Enter Died Date (dd/mm/yyyy) (If not available then type 'NA'): ");
+					String input = scan.nextLine();
+				
+					if(!input.equalsIgnoreCase("NA")){
+						dDate = valService.validateDate(input);
+						if(bDate.isAfter(dDate)){
+							System.out.println("\nDied date should be after Born date");
+							continue;
+						}
+						if(dDate!=null) break;
+						else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
+					}
+					else{
+						dDate=null;
+						break;
+					}
+				}
+				
+				while(true){
+					System.out.print("Enter CAE IPI number: ");
+					caeIpi = scan.nextLine();
+					boolean isValid = valService.validateCaeIpi(caeIpi);
+					if(isValid) break;
+					else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
+				}
+			
+				while(true) {
+					System.out.print("Enter music society ID: ");
+					mSocietyId = scan.nextLine().toCharArray();
+					boolean isValid = valService.validateMSocietyId(mSocietyId);
+					if(isValid) break;
+					else System.out.println("\nPlease enter valid input!\n");
+				}
+			
+				compBean.setId(bean.getId());
+				compBean.setName(name);
+				compBean.setBornDate(bDate);
+				compBean.setDiedDate(dDate);
+				compBean.setCaeipiNumber(caeIpi);
+				compBean.setMusicSocietyId(mSocietyId);
+				compBean.setUpdatedBy(userId);
+			
+				bean = adminService.updateComposer(compBean);
+				if(bean!=null) System.out.println("Composer's information updated successfully with id: "+bean.getId());
+				else System.out.println("\nProblem occured while updating artist's information...\n");
 			}
-		
-			while(true) {
-				System.out.print("Enter music society ID: ");
-				mSocietyId = scan.nextLine().toCharArray();
-				boolean isValid = valService.validateMSocietyId(mSocietyId);
-				if(isValid) break;
-				else System.out.println("\nPlease enter valid input!\n");
-			}
-		
-			compBean.setId(bean.getId());
-			compBean.setName(name);
-			compBean.setBornDate(bDate);
-			compBean.setDiedDate(dDate);
-			compBean.setCaeipiNumber(caeIpi);
-			compBean.setMusicSocietyId(mSocietyId);
-			compBean.setUpdatedBy(userId);
-		
-			bean = adminService.updateComposer(compBean);
-			if(bean!=null) System.out.println("Composer's information updated successfully with id: "+bean.getId());
-			else System.out.println("\nProblem occured while updating artist's information...\n");
 			
 			boolean isContinue;
 			while(true) {
@@ -1288,13 +1382,14 @@ public class MCAMS {
 	 * @param userId User Id in integer
 	 */
 	private static void editArtist(int userId) {
+		String format = "%-2s %-10s %2s %-20s %2s";
 		while(true){
 			clearScreen();
 			String name, bornDate="", diedDate="";
 			int choice1;
 			LocalDate bDate, dDate;
 			while(true){
-				System.out.println("\nEDIT ARTIST");
+				System.out.println("EDIT ARTIST");
 				System.out.print("Enter Artist name: ");
 				name = scan.nextLine();
 				boolean isValid = valService.validateName(name);
@@ -1306,21 +1401,25 @@ public class MCAMS {
 			ArtistBean bean = new ArtistBean();
 			if(beanList.isEmpty()) System.out.println("\nNo Record Found!\n");
 			else if(beanList.size() == 1){
-				System.out.println("******Existing Information*******");
 				for (ArtistBean artistBean : beanList) {
 					if(artistBean.getBornDate() == null) bornDate="NA";
 					else bornDate = artistBean.getBornDate().toString();
 					if(artistBean.getDiedDate() == null) diedDate="NA";
 					else diedDate = artistBean.getDiedDate().toString();
 					
-					System.out.println("Artist's Id: "+artistBean.getId());
-					System.out.println("Artist Name: "+artistBean.getName());
-					System.out.println("Artist's Born Date: "+bornDate);
-					System.out.println("Artist's Died Date: "+diedDate);
-					System.out.println("Created By: "+artistBean.getCreatedBy());
-					System.out.println("Created On: "+artistBean.getCreatedOn());
-					System.out.println("Updated By: "+artistBean.getUpdatedBy());
-					System.out.println("Updated On: "+artistBean.getUpdatedOn());
+					System.out.println("---------------------------------------");
+					System.out.println("|     Existing Artist Information     |");
+					System.out.println("---------------------------------------");
+					
+					System.out.printf(format, "|", "Id", "|", artistBean.getId(), "|\n");
+					System.out.printf(format, "|", "Name", "|", artistBean.getName(), "|\n");
+					System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+					System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+					System.out.printf(format, "|", "Created By", "|", artistBean.getCreatedBy(), "|\n");
+					System.out.printf(format, "|", "Created On", "|", artistBean.getCreatedOn(), "|\n");
+					System.out.printf(format, "|", "Updated By", "|", artistBean.getUpdatedBy(), "|\n");
+					System.out.printf(format, "|", "Updated On", "|", artistBean.getUpdatedOn(), "|\n");
+					System.out.println("---------------------------------------\n");
 				}
 			}
 			else{
@@ -1342,73 +1441,79 @@ public class MCAMS {
 						else bornDate = bean.getBornDate().toString();
 						if(bean.getDiedDate() == null) diedDate="NA";
 						else diedDate = bean.getDiedDate().toString();
-						System.out.println("******Existing Information*******");
-						System.out.println("Artist's Id: "+bean.getId());
-						System.out.println("Artist Name: "+bean.getName());
-						System.out.println("Artist's Born Date: "+bornDate);
-						System.out.println("Artist's Died Date: "+diedDate);
-						System.out.println("Created By: "+bean.getCreatedBy());
-						System.out.println("Created On: "+bean.getCreatedOn());
-						System.out.println("Updated By: "+bean.getUpdatedBy());
-						System.out.println("Updated On: "+bean.getUpdatedOn());
+						System.out.println("---------------------------------------");
+						System.out.println("|     Existing Artist Information     |");
+						System.out.println("---------------------------------------");
+						
+						System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+						System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+						System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+						System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+						System.out.printf(format, "|", "Created By", "|", bean.getCreatedBy(), "|\n");
+						System.out.printf(format, "|", "Created On", "|", bean.getCreatedOn(), "|\n");
+						System.out.printf(format, "|", "Updated By", "|", bean.getUpdatedBy(), "|\n");
+						System.out.printf(format, "|", "Updated On", "|", bean.getUpdatedOn(), "|\n");
+						System.out.println("---------------------------------------\n");
 						break;
 					}
 					else System.out.println("Please Enter valid choice");
 				}
 			}
 
-			System.out.println("Enter Details you want to update");
-			while(true){
-				System.out.print("Enter name: ");
-				name = scan.nextLine();
-				boolean isValid = valService.validateName(name);
-				if(isValid) break;
-				else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
-			}
-		
-			while(true){
-				System.out.print("Enter Born Date (dd/mm/yyyy) (If not available then type 'NA'): ");
-				String input = scan.nextLine();
-			
-				if(!input.equalsIgnoreCase("NA")){
-					bDate = valService.validateDate(input);
-					if(bDate!=null) break;
-					else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
+			if(!beanList.isEmpty()) {
+				System.out.println("Enter Details you want to update");
+				while(true){
+					System.out.print("Enter name: ");
+					name = scan.nextLine();
+					boolean isValid = valService.validateName(name);
+					if(isValid) break;
+					else System.out.println("\nPlease enter valid name! (MinChar:3, MaxChar:50)\n");
 				}
-				else{
-					bDate=null;
-					break;
-				}
-			}
-		
-			while(true){
-				System.out.print("Enter Died Date (mm/dd/yyyy) (If not available then type 'NA'): ");
-				String input = scan.nextLine();
 			
-				if(!input.equalsIgnoreCase("NA")){
-					dDate = valService.validateDate(input);
-					if(bDate.isAfter(dDate)){
-						System.out.println("\nDied date should be after Born date");
-						continue;
+				while(true){
+					System.out.print("Enter Born Date (dd/mm/yyyy) (If not available then type 'NA'): ");
+					String input = scan.nextLine();
+				
+					if(!input.equalsIgnoreCase("NA")){
+						bDate = valService.validateDate(input);
+						if(bDate!=null) break;
+						else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
 					}
-					if(dDate!=null) break;
-					else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
+					else{
+						bDate=null;
+						break;
+					}
 				}
-				else{
-					dDate=null;
-					break;
+			
+				while(true){
+					System.out.print("Enter Died Date (mm/dd/yyyy) (If not available then type 'NA'): ");
+					String input = scan.nextLine();
+				
+					if(!input.equalsIgnoreCase("NA")){
+						dDate = valService.validateDate(input);
+						if(bDate.isAfter(dDate)){
+							System.out.println("\nDied date should be after Born date");
+							continue;
+						}
+						if(dDate!=null) break;
+						else System.out.println("\nPlease enter valid date! (dd/mm/yyyy)\n");
+					}
+					else{
+						dDate=null;
+						break;
+					}
 				}
+			
+				artBean.setId(bean.getId());
+				artBean.setName(name);
+				artBean.setBornDate(bDate);
+				artBean.setDiedDate(dDate);
+				artBean.setUpdatedBy(userId);
+			
+				bean = adminService.updateArtist(artBean);
+				if(bean!=null) System.out.println("Artist's information updated successfully with id: "+bean.getId());
+				else System.out.println("\nProblem occured while updating artist's information...\n");
 			}
-		
-			artBean.setId(bean.getId());
-			artBean.setName(name);
-			artBean.setBornDate(bDate);
-			artBean.setDiedDate(dDate);
-			artBean.setUpdatedBy(userId);
-		
-			bean = adminService.updateArtist(artBean);
-			if(bean!=null) System.out.println("Artist's information updated successfully with id: "+bean.getId());
-			else System.out.println("\nProblem occured while updating artist's information...\n");
 			
 			boolean isContinue;
 			while(true) {
@@ -1454,6 +1559,7 @@ public class MCAMS {
 	 */
 	private static void searchComposer() {
 		int choice1;
+		String format = "%-2s %-16s %2s %-20s %2s";
 		while(true){
 			clearScreen();
 			String name;
@@ -1476,16 +1582,21 @@ public class MCAMS {
 					if(composerBean.getDiedDate() == null) diedDate="NA";
 					else diedDate = composerBean.getDiedDate().toString();
 					
-					System.out.println("Composer's Id: "+composerBean.getId());
-					System.out.println("Composer's Name: "+composerBean.getName());
-					System.out.println("Composer's Born Date: "+bornDate);
-					System.out.println("Composer's Died Date: "+diedDate);
-					System.out.println("Composer's CAE IPI Number: "+composerBean.getCaeipiNumber());
-					System.out.println("Composer's Music Society Id: "+new String(composerBean.getMusicSocietyId()));
-					System.out.println("Created By: "+composerBean.getCreatedBy());
-					System.out.println("Created On: "+composerBean.getCreatedOn());
-					System.out.println("Updated By: "+composerBean.getUpdatedBy());
-					System.out.println("Updated On: "+composerBean.getUpdatedOn());
+					System.out.println("---------------------------------------------");
+					System.out.println("|           Composer Information            |");
+					System.out.println("---------------------------------------------");
+					
+					System.out.printf(format, "|", "Id", "|", composerBean.getId(), "|\n");
+					System.out.printf(format, "|", "Name", "|", composerBean.getName(), "|\n");
+					System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+					System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+					System.out.printf(format, "|", "CAE IPI Number", "|", composerBean.getCaeipiNumber(), "|\n");
+					System.out.printf(format, "|", "Music Society Id", "|", new String(composerBean.getMusicSocietyId()), "|\n");
+					System.out.printf(format, "|", "Created By", "|", composerBean.getCreatedBy(), "|\n");
+					System.out.printf(format, "|", "Created On", "|", composerBean.getCreatedOn(), "|\n");
+					System.out.printf(format, "|", "Updated By", "|", composerBean.getUpdatedBy(), "|\n");
+					System.out.printf(format, "|", "Updated On", "|", composerBean.getUpdatedOn(), "|\n");
+					System.out.println("---------------------------------------------\n");
 				}
 				
 			}
@@ -1508,16 +1619,21 @@ public class MCAMS {
 						if(bean.getDiedDate() == null) diedDate="NA";
 						else diedDate = bean.getDiedDate().toString();
 						
-						System.out.println("Composer's Id: "+bean.getId());
-						System.out.println("Composer's Name: "+bean.getName());
-						System.out.println("Composer's Born Date: "+bornDate);
-						System.out.println("Composer's Died Date: "+diedDate);
-						System.out.println("Composer's CAE IPI Number: "+bean.getCaeipiNumber());
-						System.out.println("Composer's Music Society Id: "+new String(bean.getMusicSocietyId()));
-						System.out.println("Created By: "+bean.getCreatedBy());
-						System.out.println("Created On: "+bean.getCreatedOn());
-						System.out.println("Updated By: "+bean.getUpdatedBy());
-						System.out.println("Updated On: "+bean.getUpdatedOn());
+						System.out.println("---------------------------------------------");
+						System.out.println("|           Composer Information            |");
+						System.out.println("---------------------------------------------");
+						
+						System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+						System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+						System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+						System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+						System.out.printf(format, "|", "CAE IPI Number", "|", bean.getCaeipiNumber(), "|\n");
+						System.out.printf(format, "|", "Music Society Id", "|", new String(bean.getMusicSocietyId()), "|\n");
+						System.out.printf(format, "|", "Created By", "|", bean.getCreatedBy(), "|\n");
+						System.out.printf(format, "|", "Created On", "|", bean.getCreatedOn(), "|\n");
+						System.out.printf(format, "|", "Updated By", "|", bean.getUpdatedBy(), "|\n");
+						System.out.printf(format, "|", "Updated On", "|", bean.getUpdatedOn(), "|\n");
+						System.out.println("---------------------------------------------\n");
 						break;
 					}
 					else System.out.println("Please Enter valid choice");
@@ -1542,6 +1658,7 @@ public class MCAMS {
 	 */
 	private static void seachArtist() {
 		int choice1;
+		String format = "%-2s %-10s %2s %-20s %2s";
 		while(true){
 			clearScreen();
 			String name;
@@ -1564,14 +1681,19 @@ public class MCAMS {
 					if(artistBean.getDiedDate() == null) diedDate="NA";
 					else diedDate = artistBean.getDiedDate().toString();
 					
-					System.out.println("Artist's Id: "+artistBean.getId());
-					System.out.println("Artist Name: "+artistBean.getName());
-					System.out.println("Artist's Born Date: "+bornDate);
-					System.out.println("Artist's Died Date: "+diedDate);
-					System.out.println("Created By: "+artistBean.getCreatedBy());
-					System.out.println("Created On: "+artistBean.getCreatedOn());
-					System.out.println("Updated By: "+artistBean.getUpdatedBy());
-					System.out.println("Updated On: "+artistBean.getUpdatedOn());
+					System.out.println("---------------------------------------");
+					System.out.println("|          Artist Information         |");
+					System.out.println("---------------------------------------");
+					
+					System.out.printf(format, "|", "Id", "|", artistBean.getId(), "|\n");
+					System.out.printf(format, "|", "Name", "|", artistBean.getName(), "|\n");
+					System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+					System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+					System.out.printf(format, "|", "Created By", "|", artistBean.getCreatedBy(), "|\n");
+					System.out.printf(format, "|", "Created On", "|", artistBean.getCreatedOn(), "|\n");
+					System.out.printf(format, "|", "Updated By", "|", artistBean.getUpdatedBy(), "|\n");
+					System.out.printf(format, "|", "Updated On", "|", artistBean.getUpdatedOn(), "|\n");
+					System.out.println("---------------------------------------\n");
 				}
 				
 			}
@@ -1594,14 +1716,19 @@ public class MCAMS {
 						if(bean.getDiedDate() == null) diedDate="NA";
 						else diedDate = bean.getDiedDate().toString();
 						
-						System.out.println("Artist's Id: "+bean.getId());
-						System.out.println("Artist Name: "+bean.getName());
-						System.out.println("Artist's Born Date: "+bornDate);
-						System.out.println("Artist's Died Date: "+diedDate);
-						System.out.println("Created By: "+bean.getCreatedBy());
-						System.out.println("Created On: "+bean.getCreatedOn());
-						System.out.println("Updated By: "+bean.getUpdatedBy());
-						System.out.println("Updated On: "+bean.getUpdatedOn());
+						System.out.println("---------------------------------------");
+						System.out.println("|          Artist Information         |");
+						System.out.println("---------------------------------------");
+						
+						System.out.printf(format, "|", "Id", "|", bean.getId(), "|\n");
+						System.out.printf(format, "|", "Name", "|", bean.getName(), "|\n");
+						System.out.printf(format, "|", "Born Date", "|", bornDate, "|\n");
+						System.out.printf(format, "|", "Died Date", "|", diedDate, "|\n");
+						System.out.printf(format, "|", "Created By", "|", bean.getCreatedBy(), "|\n");
+						System.out.printf(format, "|", "Created On", "|", bean.getCreatedOn(), "|\n");
+						System.out.printf(format, "|", "Updated By", "|", bean.getUpdatedBy(), "|\n");
+						System.out.printf(format, "|", "Updated On", "|", bean.getUpdatedOn(), "|\n");
+						System.out.println("---------------------------------------\n");
 						break;
 					}
 					else System.out.println("Please Enter valid choice");
@@ -1681,7 +1808,7 @@ public class MCAMS {
 			}
 		
 			while(true){
-				System.out.print("Enter Died Date (mm/dd/yyyy) (If not available then type 'NA'): ");
+				System.out.print("Enter Died Date (dd/mm/yyyy) (If not available then type 'NA'): ");
 				String input = scan.nextLine();
 			
 				if(!input.equalsIgnoreCase("NA")){
@@ -1792,7 +1919,7 @@ public class MCAMS {
 			}
 		
 			while(true){
-				System.out.print("Enter Died Date (mm/dd/yyyy) (If not available then type 'NA'): ");
+				System.out.print("Enter Died Date (dd/mm/yyyy) (If not available then type 'NA'): ");
 				String input = scan.nextLine();
 			
 				if(!input.equalsIgnoreCase("NA")){
@@ -2173,6 +2300,9 @@ public class MCAMS {
 		if(console != null)
 			try {
 				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+				System.out.println("\n*********************************************************************");
+				System.out.println("             Music_Composer_and_Artist_Management_System             ");
+				System.out.println("*********************************************************************\n");
 			} catch (Exception e) {
 				//e.printStackTrace();
 			}

@@ -22,7 +22,7 @@ public class ValidationService implements IValidationService {
 	
 	@Override
 	public boolean validateName(String name) {
-		if(name.matches("[a-zA-Z\\s\\.]{3,50}")) return true;
+		if(name.matches("^[a-zA-Z]{1}[a-zA-Z\\s\\.]{2,50}")) return true;
 		else return false;
 	}
 	
@@ -41,13 +41,13 @@ public class ValidationService implements IValidationService {
 	
 	@Override
 	public boolean validateCaeIpi(String caeIpi) {
-		if(caeIpi.matches("[a-zA-Z0-9\\s]{3,10}")) return true;
+		if(caeIpi.matches("^[a-zA-Z]{1}[a-zA-Z0-9]{2,10}")) return true;
 		else return false;
 	}
 
 	@Override
 	public boolean validateMSocietyId(char[] mSocietyId) {
-		if(mSocietyId.length==3) {
+		if(new String(mSocietyId).matches("[A-Z]{3}")) {
 			return true;
 		}
 		else return false;
@@ -56,15 +56,20 @@ public class ValidationService implements IValidationService {
 	@Override
 	public LocalTime validateDuration(String time) {
 		if(time.matches("[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}")) {
+			LocalTime lt;
+			if(time.equals("00:00")) return null;
+			
 			time = "12:"+time;
-			return LocalTime.parse(time,DateTimeFormatter.ofPattern("H:m:s"));
+			lt = LocalTime.parse(time,DateTimeFormatter.ofPattern("H:m:s"));
+			if(lt.getMinute()<2 || (lt.getMinute()<3) && lt.getSecond()<31) return null;
+			return lt;
 		}
 		else return null;		
 	}
 	
 	@Override
 	public boolean validateUsername(String username) {
-		if(username.matches("^[a-zA-Z][[a-zA-Z0-9]\\.]{3,50}")) return true;
+		if(username.matches("^[a-zA-Z]{1}[[a-zA-Z0-9]\\.]{2,50}")) return true;
 		else return false;
 	}
 	

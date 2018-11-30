@@ -603,27 +603,26 @@ public class AdminDao implements IAdminDao {
 		}
 	}
 
-	public SongBean searchSong(String name) {
+	public ArrayList<SongBean> searchSong(String name) {
 		PropertyConfigurator.configure(MCAMS.path);
-		SongBean sb = new SongBean();
-		
+		ArrayList<SongBean> songList = new ArrayList<SongBean>();
 		ResultSet rs;
 		try {
 			st = conn.createStatement();
 			sql = "SELECT Song_Id, Song_Name, Song_Duration FROM Song_Master WHERE LOWER(Song_Name) LIKE LOWER('%"+name+"%') AND Song_DeletedFlag=0";
 			rs = st.executeQuery(sql);
-			if(!rs.next()) return null;
-			else {
+			while(rs.next()) {
+				SongBean sb = new SongBean();
 				sb.setId(rs.getInt(1));
 				sb.setName(rs.getString(2));
 				sb.setDuration(rs.getTime(3).toLocalTime());
-				myLogger.info("song found ");
-				return sb;
-			}	
+				songList.add(sb);
+			}
+			return songList;	
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			myLogger.info(" Exception found" );
-			return null;
+			return songList;
 		}
 	}
 

@@ -77,7 +77,7 @@ public class AdminService implements IAdminService {
 		return adminDao.deleteSong(songId,userId);
 	}
 
-	public SongBean searchSong(String name) {
+	public ArrayList<SongBean> searchSong(String name) {
 		return adminDao.searchSong(name);
 	}
 
