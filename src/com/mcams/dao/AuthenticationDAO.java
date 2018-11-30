@@ -54,7 +54,7 @@ public class AuthenticationDAO implements IAuthenticationDAO {
 
 	@Override
 	public int updateSecQue(int userId, int queNo, String answer) {
-		String sql = "UPDATE User_Master SET SecQue_Id="+queNo+", SecQue_Ans='"+answer+"' WHERE User_Id="+userId;
+		String sql = "UPDATE User_Master SET SecQue_Id="+queNo+", SecQue_Answer='"+answer+"' WHERE User_Id="+userId;
 		try {
 			Statement st = conn.createStatement();
 			st.executeUpdate(sql);
