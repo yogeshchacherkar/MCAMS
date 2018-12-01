@@ -491,19 +491,17 @@ public class AdminDao implements IAdminDao {
 				rs = st.executeQuery("SELECT songSeq.CURRVAL FROM DUAL");
 				rs.next();
 				songBean.setId(rs.getInt(1));
-				
+				myLogger.info("Song added with id "+songBean.getId());
 				sql = "INSERT INTO Composer_Song_Assoc VALUES("+songBean.getId()+","+compBean.getId()+","+userId+",SYSDATE,"+userId+",SYSDATE)";
 				st.executeUpdate(sql);
-				myLogger.info(" composer song inserted ");
+				myLogger.info(songBean.getId()+" associated to "+compBean.getId());
 				return songBean;
 				
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
 				songBean.setId(0);
-				myLogger.info(" Exception found" );
+				myLogger.error(e);
 				return songBean;
-			}
-			
+			}		
 		}
 	}
 	
@@ -518,21 +516,21 @@ public class AdminDao implements IAdminDao {
 			while(rs.next()) {
 				sql = "UPDATE Song_Master SET Updated_By="+userId+", Updated_On=SYSDATE, Song_DeletedFlag=1 WHERE Song_Id="+rs.getInt(1);
 				st.executeUpdate(sql);
+				myLogger.info("Song("+rs.getInt(1)+") updated by "+userId);
 			}
 			
 			sql = "DELETE FROM Artist_Song_Assoc WHERE Artist_Id="+artistId;
 			st.executeUpdate(sql);
+			myLogger.info("Associated songs deleted of artist "+artistId);
 			
 			sql = "UPDATE Artist_Master SET Artist_DeletedFlag=1 WHERE Artist_Id="+artistId;
 			st.executeUpdate(sql);
-			myLogger.info(" artist deleted ");
+			myLogger.info("Artist deleted with id "+artistId);
 			return 0;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return 1;
-		}
-		
+		}		
 	}
 
 	@Override
@@ -546,18 +544,19 @@ public class AdminDao implements IAdminDao {
 			while(rs.next()) {
 				sql = "UPDATE Song_Master SET Updated_By="+userId+", Updated_On=SYSDATE, Song_DeletedFlag=1 WHERE Song_Id="+rs.getInt(1);
 				st.executeUpdate(sql);
+				myLogger.info(rs.getInt(1)+" updated by "+userId);
 			}
 			
 			sql = "DELETE FROM Composer_Song_Assoc WHERE Composer_Id="+composerId;
 			st.executeUpdate(sql);
+			myLogger.info("Associated song deleted of composer "+composerId);
 			
 			sql = "UPDATE Composer_Master SET Composer_DeletedFlag=1 WHERE Composer_Id="+composerId;
 			st.executeUpdate(sql);
-			myLogger.info(" composer deleted ");
+			myLogger.info("Composer deleted with id "+composerId);
 			return 0;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return 1;
 		}
 	}
@@ -568,17 +567,19 @@ public class AdminDao implements IAdminDao {
 		try {
 			sql = "DELETE FROM Artist_Song_Assoc WHERE Song_Id="+songId;
 			st.executeUpdate(sql);
+			myLogger.info("Records deleted from Artist Song Association with song id "+songId);
 			
 			sql = "DELETE FROM Composer_Song_Assoc WHERE Song_Id="+songId;
 			st.executeUpdate(sql);
+			myLogger.info("Records deleted from Composer Song Association with song id "+songId);
 			
 			sql = "UPDATE Song_Master SET Updated_By="+userId+", Updated_On=SYSDATE, Song_DeletedFlag=1 WHERE Song_Id="+songId;
 			st.executeUpdate(sql);
-			myLogger.info(" Song deleted ");
+			myLogger.info("Song deleted with id "+songId);
 			return 0;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return 1;
 		}
 	}
@@ -600,8 +601,7 @@ public class AdminDao implements IAdminDao {
 			}
 			return songList;	
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return songList;
 		}
 	}
@@ -613,16 +613,15 @@ public class AdminDao implements IAdminDao {
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()) {
-				myLogger.info(" music society found ");
+				myLogger.info(mSocietyId+" music society found.");
 				return true;
 			}
 			else {
-				myLogger.info(" music society does not exist ");
+				myLogger.info(mSocietyId+" music society does not exist");
 				return false;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return false;
 		}
 	}
@@ -634,11 +633,10 @@ public class AdminDao implements IAdminDao {
 			sql = "UPDATE User_Master SET User_Password='"+newPassword+"' WHERE User_Id="+userId;
 			st = conn.createStatement();
 			st.executeUpdate(sql);
-			myLogger.info(" Password changed" );
+			myLogger.info("Password changed of admin "+userId);
 			return 0;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			myLogger.info(" Exception found" );
+			myLogger.error(e);
 			return 1;
 		}
 	}
